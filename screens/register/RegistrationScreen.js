@@ -9,25 +9,13 @@ import {
   Keyboard,
   KeyboardAvoidingView,
   Platform,
-  Button,
   ImageBackground,
 } from 'react-native';
-import * as Font from 'expo-font';
-import { AppLoading } from 'expo';
 
-const loadFonts = async () => {
-  await Font.loadAsync({
-    'Roboto-Regular': require('../assets/fonts/Roboto-Regular.ttf'),
-    'Roboto-Medium': require('../assets/fonts/Roboto-Medium.ttf'),
-    'Roboto-Thin': require('../assets/fonts/Roboto-Thin.ttf'),
-  });
-};
-
-export default function RegistrationScreen() {
+export default function RegistrationScreen({ navigation }) {
   const [login, setLogin] = useState({ value: '', isFocused: false });
   const [email, setEmail] = useState({ value: '', isFocused: false });
   const [password, setPassword] = useState({ value: '', isFocused: false });
-  const [isFontReady, setIsFontReady] = useState(false);
   const [isPassordShown, setIsPassordShown] = useState(false);
 
   const loginHandler = (text) => setLogin({ ...login, value: text });
@@ -40,25 +28,12 @@ export default function RegistrationScreen() {
     console.log('password :>> ', password.value);
   };
 
-  const onLogin = () => {
-    console.log('login');
-  };
-
-  if (!isFontReady) {
-    return (
-      <AppLoading
-        startAsync={loadFonts}
-        onFinish={() => setIsFontReady(true)}
-      />
-    );
-  }
-
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
         <ImageBackground
           style={styles.background}
-          source={require('../assets/images/3060bf968d92368179ce26a756ce4271.jpg')}
+          source={require('../../assets/images/3060bf968d92368179ce26a756ce4271.jpg')}
         >
           <KeyboardAvoidingView
             style={styles.signInContainer}
@@ -120,7 +95,7 @@ export default function RegistrationScreen() {
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.buttonLogin}
-                onPress={onLogin}
+                onPress={() => navigation.navigate('Login')}
                 activeOpacity={0.6}
               >
                 <Text style={styles.buttonLoginText}>
@@ -149,6 +124,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     paddingTop: 92,
     paddingBottom: 78,
+    borderTopLeftRadius: 25,
+    borderTopRightRadius: 25,
   },
 
   innerWrapper: { marginHorizontal: 16 },
