@@ -7,7 +7,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 export default function CameraView() {
   const [hasPermission, setHasPermission] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
-  const [cameraRef, setCameraRef] = useState(null);
+  const cameraRef = useRef(null);
 
   useEffect(() => {
     (async () => {
@@ -27,13 +27,7 @@ export default function CameraView() {
 
   return (
     <View style={styles.container}>
-      <Camera
-        style={styles.camera}
-        type={type}
-        ref={(ref) => {
-          setCameraRef(ref);
-        }}
-      >
+      <Camera style={styles.camera} type={type} ref={cameraRef}>
         <View style={styles.photoView}>
           <TouchableOpacity
             style={styles.flipContainer}
@@ -54,8 +48,8 @@ export default function CameraView() {
           <TouchableOpacity
             style={styles.button}
             onPress={async () => {
-              if (cameraRef) {
-                const { uri } = await cameraRef.takePictureAsync();
+              if (cameraRef.current) {
+                const { uri } = await cameraRef.current.takePictureAsync();
                 await MediaLibrary.createAssetAsync(uri);
               }
             }}
