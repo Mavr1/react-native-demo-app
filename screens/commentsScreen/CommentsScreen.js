@@ -9,7 +9,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from 'react-native';
-import CommentInput from '../../components/CommentInput';
+import CommentInput from '../../components/commentInput/CommentInput';
 import { styles } from './styles';
 
 export default function CommentsScreen() {

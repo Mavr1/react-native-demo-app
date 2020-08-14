@@ -12,7 +12,7 @@ import {
 import { MaterialIcons } from '@expo/vector-icons';
 import { SimpleLineIcons } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
-import CameraView from '../../components/CameraView';
+import CameraView from '../../components/cameraView/CameraView';
 import { styles } from './styles';
 
 export default function CreatePostsScreen() {
