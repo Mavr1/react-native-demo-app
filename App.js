@@ -25,6 +25,8 @@ const Stack = createStackNavigator();
 export default function App() {
   const [isFontReady, setIsFontReady] = useState(false);
 
+  const handleSignOut = () => console.log('Sign Out');
+
   if (!isFontReady) {
     return (
       <AppLoading
@@ -59,7 +61,7 @@ export default function App() {
             headerRight: () => (
               <TouchableOpacity
                 style={styles.buttonLogout}
-                onPress={() => {}}
+                onPress={handleSignOut}
                 activeOpacity={0.8}
               >
                 <Feather name="log-out" size={24} color="#BDBDBD" />
