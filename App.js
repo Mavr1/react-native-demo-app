@@ -3,13 +3,14 @@ import { StyleSheet } from 'react-native';
 import * as Font from 'expo-font';
 import { AppLoading } from 'expo';
 import { Feather } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import RegistrationScreen from './screens/register/RegistrationScreen';
 import LoginScreen from './screens/login/LoginScreen';
-import PostsScreen from './screens/postsScreen/PostsScreen';
 import HomeScreen from './screens/homeScreen/HomeScreen';
+import CommentsScreen from './screens/commentsScreen/CommentsScreen';
 
 const loadFonts = async () => {
   await Font.loadAsync({
@@ -49,7 +50,7 @@ export default function App() {
           name="Login"
           component={LoginScreen}
         /> */}
-        <Stack.Screen
+        {/* <Stack.Screen
           name="Home"
           component={HomeScreen}
           options={{
@@ -68,6 +69,26 @@ export default function App() {
               </TouchableOpacity>
             ),
           }}
+        /> */}
+        <Stack.Screen
+          name="Comments"
+          component={CommentsScreen}
+          options={{
+            title: 'Комментарии',
+            headerTitleStyle: {
+              alignSelf: 'center',
+              transform: [{ translateX: -28 }],
+            },
+            headerLeft: () => (
+              <TouchableOpacity
+                style={styles.buttonBack}
+                onPress={handleSignOut}
+                activeOpacity={0.8}
+              >
+                <MaterialIcons name="arrow-back" size={24} color="#BDBDBD" />
+              </TouchableOpacity>
+            ),
+          }}
         />
       </Stack.Navigator>
     </NavigationContainer>
@@ -76,6 +97,10 @@ export default function App() {
 
 const styles = StyleSheet.create({
   buttonLogout: {
-    marginRight: 10,
+    marginRight: 20,
+  },
+
+  buttonBack: {
+    marginLeft: 20,
   },
 });

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import {
-  StyleSheet,
   View,
   KeyboardAvoidingView,
   Text,
@@ -13,47 +12,58 @@ import {
 import { MaterialIcons } from '@expo/vector-icons';
 import { SimpleLineIcons } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
+import CameraView from '../../components/CameraView';
+import { styles } from './styles';
 
 export default function CreatePostsScreen() {
   const [postDescription, setPostDescription] = useState('');
   const [postLocation, setpostLocation] = useState('');
+  const [isCameraOn, setIsCameraOn] = useState(false);
 
   const postDescriptionHandler = (text) => setPostDescription(text);
   const postLocationHandler = (text) => setpostLocation(text);
 
-  const onAddPhoto = () => console.log('Add Photo');
+  const onUploadPhoto = () => console.log('Add Photo');
   const onDeletePost = () => console.log('Delete Post');
   const onPublish = () => console.log('Publish');
 
   return (
     <KeyboardAvoidingView
-      style={{ flex: 1 }}
+      style={styles.container}
       keyboardVerticalOffset={Platform.select({ ios: 0, android: 16 })}
       behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
     >
       <TouchableWithoutFeedback
-        onPress={Keyboard.dismiss}
-        style={styles.container}
+        onPress={() => {
+          Keyboard.dismiss;
+          setIsCameraOn(false);
+        }}
       >
         <View style={styles.inner}>
           <View style={styles.addPhotoContainer}>
             <View style={styles.photoContainer}>
-              <Image
-                source={{
-                  uri:
-                    'https://cdn.pixabay.com/photo/2020/08/10/14/17/hummingbird-5477966_960_720.jpg',
-                }}
-                style={styles.photo}
-              />
-              <TouchableOpacity
-                style={styles.addPhotoIconContainer}
-                onPress={onAddPhoto}
-                activeOpacity={0.4}
-              >
-                <MaterialIcons name="photo-camera" size={24} color="#BDBDBD" />
-              </TouchableOpacity>
+              {isCameraOn && <CameraView />}
+              {!isCameraOn && (
+                <TouchableOpacity
+                  style={styles.addPhotoIconContainer}
+                  onPress={() => setIsCameraOn(true)}
+                  activeOpacity={0.4}
+                >
+                  <MaterialIcons
+                    name="photo-camera"
+                    size={24}
+                    color="#BDBDBD"
+                  />
+                </TouchableOpacity>
+              )}
             </View>
-            <Text style={styles.addPhotoDescription}>Загрузите фото</Text>
+            <TouchableOpacity
+              style={styles.uploadPhotoButton}
+              onPress={() => onUploadPhoto()}
+              activeOpacity={0.4}
+            >
+              <Text style={styles.uploadPhotoDescription}>Загрузите фото</Text>
+            </TouchableOpacity>
           </View>
           <View style={styles.publishContainer}>
             <View style={styles.postDescriptionInput}>
@@ -99,101 +109,3 @@ export default function CreatePostsScreen() {
     </KeyboardAvoidingView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-
-  inner: {
-    flex: 1,
-    backgroundColor: '#fff',
-    justifyContent: 'flex-end',
-  },
-
-  addPhotoContainer: { marginHorizontal: 16, marginBottom: 48 },
-
-  photoContainer: {
-    height: 240,
-    backgroundColor: '#F6F6F6',
-    borderWidth: 1,
-    borderColor: '#E8E8E8',
-    borderRadius: 8,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 32,
-  },
-
-  addPhotoIconContainer: {
-    width: 60,
-    height: 60,
-    backgroundColor: '#fff',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 30,
-  },
-
-  addPhotoDescription: {
-    fontFamily: 'Roboto-Regular',
-    fontSize: 16,
-    color: '#BDBDBD',
-    marginTop: 8,
-  },
-
-  publishContainer: {
-    marginHorizontal: 16,
-  },
-
-  postDescriptionInput: {
-    borderBottomWidth: 1,
-    borderBottomColor: '#E8E8E8',
-  },
-
-  postLocationInput: {
-    borderBottomWidth: 1,
-    borderBottomColor: '#E8E8E8',
-    flexDirection: 'row',
-    marginTop: 32,
-  },
-
-  postInputIcon: { marginRight: 8 },
-
-  postInputText: {
-    fontFamily: 'Roboto-Regular',
-    fontSize: 16,
-    marginBottom: 14,
-  },
-
-  postInputTextLocation: {
-    fontFamily: 'Roboto-Regular',
-    fontSize: 16,
-    marginBottom: 14,
-    flex: 1,
-  },
-
-  buttonPublish: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 32,
-    height: 52,
-    backgroundColor: '#F6F6F6',
-    borderRadius: 100,
-  },
-
-  buttonPublishTitle: {
-    fontFamily: 'Roboto-Regular',
-    fontSize: 16,
-    color: '#BDBDBD',
-  },
-
-  deletePostButton: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    alignSelf: 'center',
-    backgroundColor: '#F6F6F6',
-    borderRadius: 20,
-    width: 70,
-    height: 40,
-    marginTop: 20,
-  },
-});
