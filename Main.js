@@ -1,4 +1,3 @@
-import fb from './firebase/config';
 import React, { useState, useEffect } from 'react';
 import { StyleSheet } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
@@ -12,8 +11,7 @@ import RegistrationScreen from './screens/register/RegistrationScreen';
 import LoginScreen from './screens/login/LoginScreen';
 import HomeScreen from './screens/homeScreen/HomeScreen';
 import CommentsScreen from './screens/commentsScreen/CommentsScreen';
-import { logout } from './redux/auth/authOperations';
-import authSlice from './redux/auth/authSlice';
+import { logout, getAuthState } from './redux/auth/authOperations';
 
 const loadFonts = async () => {
   await Font.loadAsync({
@@ -33,18 +31,10 @@ export default function Main() {
 
   const isAuth = Boolean(useSelector((state) => state.auth.uid));
 
-  const getAuthState = () => {
-    fb.auth().onAuthStateChanged((user) => {
-      if (user) {
-        const { displayName, email, uid } = user;
-        dispatch(
-          authSlice.actions.getAuthStateSuccess({ displayName, email, uid })
-        );
-      }
-    });
-  };
-
-  useEffect(() => getAuthState(), []);
+  useEffect(() => {
+    dispatch(getAuthState());
+    return;
+  }, []);
 
   const handleSignOut = () => dispatch(logout());
 

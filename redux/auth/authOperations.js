@@ -43,3 +43,21 @@ export const logout = () => async (dispatch) => {
   }
   dispatch(loaderSlice.actions.setLoadingFalse());
 };
+
+export const getAuthState = () => async (dispatch) => {
+  dispatch(loaderSlice.actions.setLoadingTrue());
+  try {
+    await fb.auth().onAuthStateChanged((user) => {
+      if (user) {
+        const { displayName, email, uid } = user;
+        dispatch(
+          authSlice.actions.getAuthStateSuccess({ displayName, email, uid })
+        );
+      }
+      dispatch(loaderSlice.actions.setLoadingFalse());
+    });
+  } catch (error) {
+    dispatch(authSlice.actions.getAuthStateError(error.message));
+    dispatch(loaderSlice.actions.setLoadingFalse());
+  }
+};
