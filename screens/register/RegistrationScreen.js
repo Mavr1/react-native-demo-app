@@ -12,6 +12,8 @@ import {
   Platform,
 } from 'react-native';
 import { styles } from '../login/styles';
+import { register } from '../../redux/auth/authOperations';
+import { useDispatch } from 'react-redux';
 
 export default function RegistrationScreen({ navigation }) {
   const [login, setLogin] = useState({ value: '', isFocused: false });
@@ -23,10 +25,13 @@ export default function RegistrationScreen({ navigation }) {
   const emailHandler = (text) => setEmail({ ...email, value: text });
   const passwordHandler = (text) => setPassword({ ...password, value: text });
 
+  const dispatch = useDispatch();
+
   const onRegister = () => {
-    console.log('login :>> ', login.value);
-    console.log('email :>> ', email.value);
-    console.log('password :>> ', password.value);
+    dispatch(register(login.value, email.value, password.value));
+    loginHandler('');
+    emailHandler('');
+    passwordHandler('');
   };
 
   return (

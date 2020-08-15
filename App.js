@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet } from 'react-native';
+import { Provider } from 'react-redux';
 import * as Font from 'expo-font';
 import { AppLoading } from 'expo';
 import { Feather } from '@expo/vector-icons';
@@ -11,6 +12,7 @@ import RegistrationScreen from './screens/register/RegistrationScreen';
 import LoginScreen from './screens/login/LoginScreen';
 import HomeScreen from './screens/homeScreen/HomeScreen';
 import CommentsScreen from './screens/commentsScreen/CommentsScreen';
+import { store } from './redux/store';
 
 const loadFonts = async () => {
   await Font.loadAsync({
@@ -38,60 +40,62 @@ export default function App() {
   }
 
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="Registration">
-        {/* <Stack.Screen
-          options={{ headerShown: false }}
-          name="Registration"
-          component={RegistrationScreen}
-        />
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="Login"
-          component={LoginScreen}
-        /> */}
-        {/* <Stack.Screen
-          name="Home"
-          component={HomeScreen}
-          options={{
-            title: 'Публикации',
-            headerTitleStyle: {
-              alignSelf: 'center',
-              transform: [{ translateX: 28 }],
-            },
-            headerRight: () => (
-              <TouchableOpacity
-                style={styles.buttonLogout}
-                onPress={handleSignOut}
-                activeOpacity={0.8}
-              >
-                <Feather name="log-out" size={24} color="#BDBDBD" />
-              </TouchableOpacity>
-            ),
-          }}
-        /> */}
-        <Stack.Screen
-          name="Comments"
-          component={CommentsScreen}
-          options={{
-            title: 'Комментарии',
-            headerTitleStyle: {
-              alignSelf: 'center',
-              transform: [{ translateX: -28 }],
-            },
-            headerLeft: () => (
-              <TouchableOpacity
-                style={styles.buttonBack}
-                onPress={handleSignOut}
-                activeOpacity={0.8}
-              >
-                <MaterialIcons name="arrow-back" size={24} color="#BDBDBD" />
-              </TouchableOpacity>
-            ),
-          }}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="Registration">
+          <Stack.Screen
+            options={{ headerShown: false }}
+            name="Registration"
+            component={RegistrationScreen}
+          />
+          <Stack.Screen
+            options={{ headerShown: false }}
+            name="Login"
+            component={LoginScreen}
+          />
+          <Stack.Screen
+            name="Home"
+            component={HomeScreen}
+            options={{
+              title: 'Публикации',
+              headerTitleStyle: {
+                alignSelf: 'center',
+                transform: [{ translateX: 28 }],
+              },
+              headerRight: () => (
+                <TouchableOpacity
+                  style={styles.buttonLogout}
+                  onPress={handleSignOut}
+                  activeOpacity={0.8}
+                >
+                  <Feather name="log-out" size={24} color="#BDBDBD" />
+                </TouchableOpacity>
+              ),
+            }}
+          />
+          <Stack.Screen
+            name="Comments"
+            component={CommentsScreen}
+            options={{
+              title: 'Комментарии',
+              headerTitleStyle: {
+                alignSelf: 'center',
+                transform: [{ translateX: -28 }],
+              },
+              headerLeft: () => (
+                <TouchableOpacity
+                  style={styles.buttonBack}
+                  onPress={handleSignOut}
+                  activeOpacity={0.8}
+                >
+                  <MaterialIcons name="arrow-back" size={24} color="#BDBDBD" />
+                </TouchableOpacity>
+              ),
+            }}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </Provider>
   );
 }
 

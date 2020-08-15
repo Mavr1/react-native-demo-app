@@ -1,8 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  token: '',
   name: '',
+  email: '',
+  uid: '',
   error: '',
 };
 
@@ -12,15 +13,15 @@ export default createSlice({
   reducers: {
     registerSuccess: (state, { payload }) => ({
       ...state,
-      name: payload.userData.name,
-      token: payload.token,
+      name: payload.displayName,
+      email: payload.email,
+      uid: payload.uid,
     }),
     registerError: (state, { payload }) => ({ ...state, error: payload }),
     setErrorNull: (state) => ({ ...state, error: '' }),
     loginSuccess: (state, { payload }) => ({
       ...state,
       name: payload.userData.name,
-      token: payload.token,
     }),
     loginError: (state, { payload }) => ({ ...state, error: payload }),
     logoutSuccess: () => initialState,
