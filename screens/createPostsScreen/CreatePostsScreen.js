@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   KeyboardAvoidingView,
@@ -9,24 +9,54 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from 'react-native';
+import * as Location from 'expo-location';
+import { useSelector, useDispatch } from 'react-redux';
 import { MaterialIcons } from '@expo/vector-icons';
 import { SimpleLineIcons } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
 import CameraView from '../../components/cameraView/CameraView';
 import { styles } from './styles';
+import { addPost } from '../../redux/posts/postsOperations';
 
 export default function CreatePostsScreen() {
   const [postDescription, setPostDescription] = useState('');
   const [postLocation, setpostLocation] = useState('');
+  const [postGeoLocation, setPostGeoLocation] = useState('');
   const [isCameraOn, setIsCameraOn] = useState(false);
 
   const postDescriptionHandler = (text) => setPostDescription(text);
   const postLocationHandler = (text) => setpostLocation(text);
 
+  const name = useSelector((state) => state.auth.name);
+  const uid = useSelector((state) => state.auth.uid);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestPermissionsAsync();
+      if (status !== 'granted') {
+        console.log('Permission to access location was denied');
+      }
+      let location = await Location.getCurrentPositionAsync({});
+      const coords = {
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+      };
+      setPostGeoLocation(coords);
+    })();
+  }, []);
+
   const onUploadPhoto = () => console.log('Add Photo');
   const onDeletePost = () => console.log('Delete Post');
-  const onPublish = () => console.log('Publish');
-
+  const onPublish = () => {
+    setIsCameraOn(false);
+    setPostDescription('');
+    setpostLocation('');
+    dispatch(
+      addPost({ postDescription, postLocation, postGeoLocation, name, uid })
+    );
+  };
   return (
     <KeyboardAvoidingView
       style={styles.container}

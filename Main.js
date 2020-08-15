@@ -48,7 +48,7 @@ export default function Main() {
   }
 
   return (
-    <Stack.Navigator initialRouteName="Registration">
+    <Stack.Navigator initialRouteName="Login">
       {!isAuth && (
         <>
           <Stack.Screen
