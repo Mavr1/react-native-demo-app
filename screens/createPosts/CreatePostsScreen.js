@@ -22,6 +22,7 @@ export default function CreatePostsScreen({ navigation }) {
   const [postDescription, setPostDescription] = useState('');
   const [postLocation, setpostLocation] = useState('');
   const [postGeoLocation, setPostGeoLocation] = useState('');
+  const [postPhoto, setPostPhoto] = useState('');
   const [isCameraOn, setIsCameraOn] = useState(false);
 
   const postDescriptionHandler = (text) => setPostDescription(text);
@@ -54,7 +55,14 @@ export default function CreatePostsScreen({ navigation }) {
     setPostDescription('');
     setpostLocation('');
     dispatch(
-      addPost({ postDescription, postLocation, postGeoLocation, name, uid })
+      addPost({
+        postDescription,
+        postLocation,
+        postGeoLocation,
+        name,
+        uid,
+        postPhoto,
+      })
     );
     navigation.navigate('Posts');
   };
