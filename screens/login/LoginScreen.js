@@ -12,6 +12,8 @@ import {
   Platform,
 } from 'react-native';
 import { styles } from './styles';
+import { login } from '../../redux/auth/authOperations';
+import { useDispatch } from 'react-redux';
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState({ value: '', isFocused: false });
@@ -21,9 +23,12 @@ export default function LoginScreen({ navigation }) {
   const emailHandler = (text) => setEmail({ ...email, value: text });
   const passwordHandler = (text) => setPassword({ ...password, value: text });
 
-  const onRegister = () => {
-    console.log('email :>> ', email.value);
-    console.log('password :>> ', password.value);
+  const dispatch = useDispatch();
+
+  const onLogin = () => {
+    dispatch(login(email.value, password.value));
+    emailHandler('');
+    passwordHandler('');
   };
 
   return (
@@ -80,7 +85,7 @@ export default function LoginScreen({ navigation }) {
               </View>
               <TouchableOpacity
                 style={styles.buttonRegister}
-                onPress={onRegister}
+                onPress={onLogin}
                 activeOpacity={0.4}
               >
                 <Text style={styles.buttonRegisterTitle}>Войти</Text>

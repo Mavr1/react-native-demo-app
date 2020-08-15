@@ -21,10 +21,19 @@ export default createSlice({
     setErrorNull: (state) => ({ ...state, error: '' }),
     loginSuccess: (state, { payload }) => ({
       ...state,
-      name: payload.userData.name,
+      name: payload.displayName,
+      email: payload.email,
+      uid: payload.uid,
     }),
     loginError: (state, { payload }) => ({ ...state, error: payload }),
     logoutSuccess: () => initialState,
     logoutError: (state, { payload }) => ({ ...state, error: payload }),
+    getAuthStateSuccess: (state, { payload }) => ({
+      ...state,
+      name: payload.displayName,
+      email: payload.email,
+      uid: payload.uid,
+    }),
+    getAuthStateError: (state, { payload }) => ({ ...state, error: payload }),
   },
 });
