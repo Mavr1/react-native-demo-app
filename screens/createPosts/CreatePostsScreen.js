@@ -18,7 +18,7 @@ import CameraView from '../../components/cameraView/CameraView';
 import { styles } from './styles';
 import { addPost } from '../../redux/posts/postsOperations';
 
-export default function CreatePostsScreen() {
+export default function CreatePostsScreen({ navigation }) {
   const [postDescription, setPostDescription] = useState('');
   const [postLocation, setpostLocation] = useState('');
   const [postGeoLocation, setPostGeoLocation] = useState('');
@@ -56,6 +56,7 @@ export default function CreatePostsScreen() {
     dispatch(
       addPost({ postDescription, postLocation, postGeoLocation, name, uid })
     );
+    navigation.navigate('Posts');
   };
   return (
     <KeyboardAvoidingView

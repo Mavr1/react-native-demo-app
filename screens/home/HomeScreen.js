@@ -4,8 +4,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
-import CreatePostsScreen from '../createPostsScreen/CreatePostsScreen';
-import PostsScreen from '../postsScreen/PostsScreen';
+import CreatePostsScreen from '../createPosts/CreatePostsScreen';
+import PostsScreen from '../posts/PostsScreen';
 
 function ProfileScreen() {
   return (

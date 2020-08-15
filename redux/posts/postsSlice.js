@@ -15,5 +15,10 @@ export default createSlice({
       postsData: [...state.postsData, payload],
     }),
     addPostError: (state, { payload }) => ({ ...state, error: payload }),
+    getPostsSuccess: (state, { payload }) => ({
+      ...state,
+      postsData: payload,
+    }),
+    getPostsError: (state, { payload }) => ({ ...state, error: payload }),
   },
 });

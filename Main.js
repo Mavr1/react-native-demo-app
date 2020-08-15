@@ -9,8 +9,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import RegistrationScreen from './screens/register/RegistrationScreen';
 import LoginScreen from './screens/login/LoginScreen';
-import HomeScreen from './screens/homeScreen/HomeScreen';
-import CommentsScreen from './screens/commentsScreen/CommentsScreen';
+import HomeScreen from './screens/home/HomeScreen';
+import CommentsScreen from './screens/comments/CommentsScreen';
 import { logout, getAuthState } from './redux/auth/authOperations';
 
 const loadFonts = async () => {
