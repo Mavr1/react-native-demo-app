@@ -88,7 +88,7 @@ export default function Main() {
           <Stack.Screen
             name="Comments"
             component={CommentsScreen}
-            options={{
+            options={({ navigation }) => ({
               title: 'Комментарии',
               headerTitleStyle: {
                 alignSelf: 'center',
@@ -97,13 +97,13 @@ export default function Main() {
               headerLeft: () => (
                 <TouchableOpacity
                   style={styles.buttonBack}
-                  onPress={handleSignOut}
+                  onPress={() => navigation.goBack()}
                   activeOpacity={0.8}
                 >
                   <MaterialIcons name="arrow-back" size={24} color="#BDBDBD" />
                 </TouchableOpacity>
               ),
-            }}
+            })}
           />
         </>
       )}

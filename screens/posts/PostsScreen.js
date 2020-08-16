@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import PostsUserCard from '../../components/postsUserCard/PostsUserCard';
 import PostsItem from '../../components/postsItem/PostsItem';
 
-export default function PostsScreen() {
+export default function PostsScreen({ navigation }) {
   const dispatch = useDispatch();
 
   const name = useSelector((state) => state.auth.name);
@@ -32,10 +32,12 @@ export default function PostsScreen() {
             data={posts}
             renderItem={({ item }) => (
               <PostsItem
+                id={item.id}
                 description={item.postDescription}
                 location={item.postLocation}
                 comments={0}
                 photo={item.photo}
+                navigation={navigation}
               />
             )}
             keyExtractor={(item) => item.id}

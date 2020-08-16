@@ -3,8 +3,16 @@ import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import { SimpleLineIcons } from '@expo/vector-icons';
 
-export default function PostsItem({ description, location, comments, photo }) {
-  const onGoToComments = () => console.log('comments');
+export default function PostsItem({
+  id,
+  description,
+  location,
+  comments,
+  photo,
+  navigation,
+}) {
+  const onGoToComments = () =>
+    navigation.navigate('Comments', { id: id, photo: photo });
   const onGoToMap = () => console.log('map');
 
   return (
@@ -23,7 +31,7 @@ export default function PostsItem({ description, location, comments, photo }) {
         <View style={styles.commentContainer}>
           <TouchableOpacity
             style={styles.commentsButton}
-            onPress={() => onGoToComments()}
+            onPress={onGoToComments}
             activeOpacity={0.4}
           >
             <FontAwesome
@@ -38,7 +46,7 @@ export default function PostsItem({ description, location, comments, photo }) {
         <View style={styles.locationContainer}>
           <TouchableOpacity
             style={styles.locationButton}
-            onPress={() => onGoToMap()}
+            onPress={onGoToMap}
             activeOpacity={0.4}
           >
             <SimpleLineIcons

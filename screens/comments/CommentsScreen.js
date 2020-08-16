@@ -12,7 +12,7 @@ import {
 import CommentInput from '../../components/commentInput/CommentInput';
 import { styles } from './styles';
 
-export default function CommentsScreen() {
+export default function CommentsScreen({ route: { params } }) {
   return (
     <KeyboardAvoidingView
       style={styles.container}
@@ -23,12 +23,12 @@ export default function CommentsScreen() {
           <View style={styles.photoContainer}>
             <Image
               source={{
-                uri:
-                  'https://cdn.pixabay.com/photo/2019/10/21/14/54/oranges-4566275__340.jpg',
+                uri: params.photo,
               }}
               style={styles.photo}
             />
           </View>
+          <View style={styles.commentsContainer}></View>
           <CommentInput />
           <View style={{ flex: 1 }} />
         </View>
