@@ -11,22 +11,24 @@ import {
 } from 'react-native';
 import * as Location from 'expo-location';
 import { useSelector, useDispatch } from 'react-redux';
+import fb from '../../firebase/config';
 import { MaterialIcons } from '@expo/vector-icons';
 import { SimpleLineIcons } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
 import CameraView from '../../components/cameraView/CameraView';
-import { styles } from './styles';
 import { addPost } from '../../redux/posts/postsOperations';
+import { styles } from './styles';
+import ButtonPublish from '../../components/buttonPublish/ButtonPublish';
 
 export default function CreatePostsScreen({ navigation }) {
   const [postDescription, setPostDescription] = useState('');
-  const [postLocation, setpostLocation] = useState('');
+  const [postLocation, setPostLocation] = useState('');
   const [postGeoLocation, setPostGeoLocation] = useState('');
   const [postPhoto, setPostPhoto] = useState('');
   const [isCameraOn, setIsCameraOn] = useState(false);
 
   const postDescriptionHandler = (text) => setPostDescription(text);
-  const postLocationHandler = (text) => setpostLocation(text);
+  const postLocationHandler = (text) => setPostLocation(text);
 
   const name = useSelector((state) => state.auth.name);
   const uid = useSelector((state) => state.auth.uid);
@@ -48,12 +50,31 @@ export default function CreatePostsScreen({ navigation }) {
     })();
   }, []);
 
-  const onUploadPhoto = () => console.log('Add Photo');
-  const onDeletePost = () => console.log('Delete Post');
-  const onPublish = () => {
+  const onSnapshot = async (photoRef) => {
     setIsCameraOn(false);
-    setPostDescription('');
-    setpostLocation('');
+    setPostPhoto(photoRef);
+  };
+
+  const onDeletePhoto = () => {
+    setPostPhoto('');
+  };
+
+  const onDeletePost = () => console.log('Delete Post');
+
+  const onPublish = async () => {
+    if (!postPhoto || !postDescription) {
+      return;
+    }
+
+    const photoResponse = await fetch(postPhoto);
+    const photoBlob = await photoResponse.blob();
+    const uniqPhotoId = Date.now().toString();
+    await fb.storage().ref(`postsImages/${uniqPhotoId}`).put(photoBlob);
+    const photo = await fb
+      .storage()
+      .ref(`postsImages/${uniqPhotoId}`)
+      .getDownloadURL();
+
     dispatch(
       addPost({
         postDescription,
@@ -61,11 +82,19 @@ export default function CreatePostsScreen({ navigation }) {
         postGeoLocation,
         name,
         uid,
-        postPhoto,
+        photo,
       })
     );
+
+    setPostDescription('');
+    setPostLocation('');
+    setPostGeoLocation('');
+    setPostPhoto('');
+    setIsCameraOn(false);
+
     navigation.navigate('Posts');
   };
+
   return (
     <KeyboardAvoidingView
       style={styles.container}
@@ -81,8 +110,16 @@ export default function CreatePostsScreen({ navigation }) {
         <View style={styles.inner}>
           <View style={styles.addPhotoContainer}>
             <View style={styles.photoContainer}>
-              {isCameraOn && <CameraView />}
-              {!isCameraOn && (
+              {!isCameraOn && Boolean(postPhoto) && (
+                <Image
+                  source={{
+                    uri: postPhoto,
+                  }}
+                  style={styles.photo}
+                />
+              )}
+              {isCameraOn && <CameraView onSnapshot={onSnapshot} />}
+              {!isCameraOn && !Boolean(postPhoto) && (
                 <TouchableOpacity
                   style={styles.addPhotoIconContainer}
                   onPress={() => setIsCameraOn(true)}
@@ -96,13 +133,17 @@ export default function CreatePostsScreen({ navigation }) {
                 </TouchableOpacity>
               )}
             </View>
-            <TouchableOpacity
-              style={styles.uploadPhotoButton}
-              onPress={() => onUploadPhoto()}
-              activeOpacity={0.4}
-            >
-              <Text style={styles.uploadPhotoDescription}>Загрузите фото</Text>
-            </TouchableOpacity>
+            {!!postPhoto ? (
+              <TouchableOpacity
+                style={styles.uploadPhotoButton}
+                onPress={() => onDeletePhoto()}
+                activeOpacity={0.4}
+              >
+                <Text style={styles.uploadPhotoDescription}>Удалить фото</Text>
+              </TouchableOpacity>
+            ) : (
+              <Text style={styles.uploadPhotoDescription}></Text>
+            )}
           </View>
           <View style={styles.publishContainer}>
             <View style={styles.postDescriptionInput}>
@@ -127,13 +168,10 @@ export default function CreatePostsScreen({ navigation }) {
                 placeholder="Местность..."
               />
             </View>
-            <TouchableOpacity
-              style={styles.buttonPublish}
-              onPress={onPublish}
-              activeOpacity={0.4}
-            >
-              <Text style={styles.buttonPublishTitle}>Опубликовать</Text>
-            </TouchableOpacity>
+            <ButtonPublish
+              onPublish={onPublish}
+              isActive={!!postDescription && !!postPhoto}
+            />
           </View>
           <TouchableOpacity
             style={styles.deletePostButton}

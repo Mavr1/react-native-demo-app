@@ -33,6 +33,8 @@ export const styles = StyleSheet.create({
     borderRadius: 30,
   },
 
+  photo: { flex: 1, borderRadius: 8 },
+
   uploadPhotoDescription: {
     fontFamily: 'Roboto-Regular',
     fontSize: 16,
@@ -71,21 +73,6 @@ export const styles = StyleSheet.create({
     flex: 1,
   },
 
-  buttonPublish: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 32,
-    height: 52,
-    backgroundColor: '#F6F6F6',
-    borderRadius: 100,
-  },
-
-  buttonPublishTitle: {
-    fontFamily: 'Roboto-Regular',
-    fontSize: 16,
-    color: '#BDBDBD',
-  },
-
   deletePostButton: {
     justifyContent: 'center',
     alignItems: 'center',
@@ -94,6 +81,6 @@ export const styles = StyleSheet.create({
     borderRadius: 20,
     width: 70,
     height: 40,
-    marginTop: 20,
+    marginTop: 30,
   },
 });

@@ -19,11 +19,9 @@ export const addPost = (post) => async (dispatch) => {
 export const getPosts = (id) => async (dispatch) => {
   dispatch(loaderSlice.actions.setLoadingTrue());
   try {
-    const snapshot = await await fb
-      .firestore()
-      .collection('posts')
-      .where('uid', '==', id)
-      .get();
+    const snapshot = id
+      ? await fb.firestore().collection('posts').where('uid', '==', id).get()
+      : await fb.firestore().collection('posts').get();
     let data = [];
     snapshot.forEach((doc) => data.push({ ...doc.data(), id: doc.id }));
     dispatch(postsSlice.actions.getPostsSuccess(data));

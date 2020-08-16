@@ -4,7 +4,7 @@ import { Camera } from 'expo-camera';
 import * as MediaLibrary from 'expo-media-library';
 import { MaterialIcons } from '@expo/vector-icons';
 
-export default function CameraView() {
+export default function CameraView({ onSnapshot }) {
   const [hasPermission, setHasPermission] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
   const cameraRef = useRef(null);
@@ -51,6 +51,7 @@ export default function CameraView() {
               if (cameraRef.current) {
                 const { uri } = await cameraRef.current.takePictureAsync();
                 await MediaLibrary.createAssetAsync(uri);
+                onSnapshot(uri);
               }
             }}
           >

@@ -16,11 +16,10 @@ export default function PostsScreen() {
 
   const name = useSelector((state) => state.auth.name);
   const email = useSelector((state) => state.auth.email);
-  const uid = useSelector((state) => state.auth.uid);
   const posts = useSelector((state) => state.posts.postsData);
 
   useEffect(() => {
-    dispatch(getPosts(uid));
+    dispatch(getPosts());
     return;
   }, []);
 
