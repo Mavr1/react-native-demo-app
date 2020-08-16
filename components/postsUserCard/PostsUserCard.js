@@ -19,8 +19,8 @@ export default PostsUserCard = ({ name, email, avatar }) => {
 const styles = StyleSheet.create({
   userCard: {
     flexDirection: 'row',
-    marginTop: 32,
     marginHorizontal: 16,
+    marginVertical: 32,
   },
 
   userAvatar: {

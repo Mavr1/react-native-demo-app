@@ -1,5 +1,4 @@
 Создать экран PostsScreen
-Создать экран CreatePostsScreen
 Создать экран CommentsScreen
 Создать экран ProfileScreen
 Создать экран MapScreen

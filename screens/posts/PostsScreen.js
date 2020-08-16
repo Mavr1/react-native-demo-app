@@ -26,19 +26,21 @@ export default function PostsScreen() {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
-        <PostsUserCard name={name} email={email} />
-        <FlatList
-          data={posts}
-          renderItem={({ item }) => (
-            <PostsItem
-              description={item.postDescription}
-              location={item.postLocation}
-              comments={0}
-              photo={item.postPhoto}
-            />
-          )}
-          keyExtractor={(item) => item.id}
-        />
+        <View style={styles.innerContainer}>
+          <PostsUserCard name={name} email={email} />
+          <FlatList
+            data={posts}
+            renderItem={({ item }) => (
+              <PostsItem
+                description={item.postDescription}
+                location={item.postLocation}
+                comments={0}
+                photo={item.photo}
+              />
+            )}
+            keyExtractor={(item) => item.id}
+          />
+        </View>
       </View>
     </TouchableWithoutFeedback>
   );
@@ -48,5 +50,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
+  },
+  innerContainer: {
+    flex: 1,
+    marginHorizontal: 16,
   },
 });
