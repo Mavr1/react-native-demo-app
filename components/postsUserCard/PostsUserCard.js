@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, Text, Image } from 'react-native';
 
-export default PostsUserCard = ({ name, email, avatar }) => {
+export default function PostsUserCard({ name, email, avatar }) {
   return (
     <View style={styles.userCard}>
       <Image
@@ -14,12 +14,11 @@ export default PostsUserCard = ({ name, email, avatar }) => {
       </View>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   userCard: {
     flexDirection: 'row',
-    marginHorizontal: 16,
     marginVertical: 32,
   },
 

@@ -1,18 +1,27 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   View,
   KeyboardAvoidingView,
-  Text,
-  TextInput,
   Image,
-  TouchableOpacity,
   TouchableWithoutFeedback,
   Keyboard,
+  FlatList,
 } from 'react-native';
 import CommentInput from '../../components/commentInput/CommentInput';
+import CommentItem from '../../components/commentItem/CommentItem';
 import { styles } from './styles';
+import { getComments } from '../../redux/comments/commentsOperations';
+import { useDispatch, useSelector } from 'react-redux';
 
 export default function CommentsScreen({ route: { params } }) {
+  const { commentsData } = useSelector((state) => state.comments);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getComments(params.id));
+    return;
+  }, []);
+
   return (
     <KeyboardAvoidingView
       style={styles.container}
@@ -28,9 +37,22 @@ export default function CommentsScreen({ route: { params } }) {
               style={styles.photo}
             />
           </View>
-          <View style={styles.commentsContainer}></View>
-          <CommentInput />
-          <View style={{ flex: 1 }} />
+          <View style={styles.commentsContainer}>
+            <FlatList
+              data={commentsData}
+              renderItem={({ item }) => (
+                <CommentItem
+                  id={item.id}
+                  text={item.comment}
+                  date={item.date}
+                  isIncoming={true}
+                  // avatar={item.photo}
+                />
+              )}
+              keyExtractor={(item) => item.id}
+            />
+          </View>
+          <CommentInput postId={params.id} postOwnerId={params.postOwnerId} />
         </View>
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>

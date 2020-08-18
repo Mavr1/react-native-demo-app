@@ -23,4 +23,6 @@ export const styles = StyleSheet.create({
   },
 
   photo: { flex: 1, borderRadius: 8 },
+
+  commentsContainer: { flex: 1 },
 });

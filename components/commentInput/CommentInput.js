@@ -2,24 +2,39 @@ import React, { useState } from 'react';
 import { View, TextInput, StyleSheet } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { addComment } from '../../redux/comments/commentsOperations';
+import { useSelector, useDispatch } from 'react-redux';
 
-export default function CommentInput() {
+export default function CommentInput({ postId, postOwnerId }) {
   const [comment, setComment] = useState('');
+  const dispatch = useDispatch();
+
+  const uid = useSelector((state) => state.auth.uid);
 
   const commentInputHandler = (text) => setComment(text);
 
-  const onAddComment = () => console.log('Add Comment');
+  const onAddComment = () => {
+    const date = new Date();
+    const data = {
+      date: date.toLocaleString('ru'),
+      comment,
+      authorId: uid,
+      postId,
+      postOwnerId,
+    };
+    dispatch(addComment(data, postId));
+  };
 
   return (
-    <View style={styles.commentInputContainer}>
+    <View style={styles.container}>
       <TextInput
-        style={styles.commentInput}
+        style={styles.input}
         value={comment}
         onChangeText={commentInputHandler}
         placeholder="Комментировать..."
       />
       <TouchableOpacity
-        style={styles.addCommentButton}
+        style={styles.addButton}
         onPress={() => onAddComment()}
         activeOpacity={0.4}
       >
@@ -30,7 +45,7 @@ export default function CommentInput() {
 }
 
 export const styles = StyleSheet.create({
-  commentInputContainer: {
+  container: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     backgroundColor: '#F6F6F6',
@@ -38,9 +53,10 @@ export const styles = StyleSheet.create({
     borderColor: '#E8E8E8',
     borderRadius: 100,
     paddingVertical: 8,
+    marginVertical: 16,
   },
 
-  commentInput: {
+  input: {
     flex: 1,
     fontFamily: 'Roboto-Medium',
     fontSize: 16,
@@ -48,7 +64,7 @@ export const styles = StyleSheet.create({
     marginLeft: 16,
   },
 
-  addCommentButton: {
+  addButton: {
     backgroundColor: '#FF6C00',
     width: 36,
     height: 36,

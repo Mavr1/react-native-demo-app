@@ -1,60 +1,54 @@
-import React, { useState } from 'react';
-import { View, TextInput, StyleSheet } from 'react-native';
-import { AntDesign } from '@expo/vector-icons';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import React from 'react';
+import { View, Image, Text, StyleSheet } from 'react-native';
 
-export default function CommentInput() {
-  const [comment, setComment] = useState('');
-
-  const commentInputHandler = (text) => setComment(text);
-
-  const onAddComment = () => console.log('Add Comment');
-
+export default function CommentInput({ avatar, text, date, isIncoming }) {
   return (
-    <View style={styles.commentInputContainer}>
-      <TextInput
-        style={styles.commentInput}
-        value={comment}
-        onChangeText={commentInputHandler}
-        placeholder="Комментировать..."
-      />
-      <TouchableOpacity
-        style={styles.addCommentButton}
-        onPress={() => onAddComment()}
-        activeOpacity={0.4}
-      >
-        <AntDesign name="arrowup" size={24} color="#fff" />
-      </TouchableOpacity>
+    <View style={styles.container}>
+      <View style={styles.avatarWrapper}>
+        <Image
+          source={{ uri: 'https://reactjs.org/logo-og.png' }}
+          style={styles.userAvatar}
+        />
+      </View>
+      <View style={styles.bubble}>
+        <Text style={styles.comment}>{text}</Text>
+        <Text style={styles.date}>{date}</Text>
+      </View>
     </View>
   );
 }
 
 export const styles = StyleSheet.create({
-  commentInputContainer: {
+  container: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    backgroundColor: '#F6F6F6',
-    borderWidth: 1,
-    borderColor: '#E8E8E8',
-    borderRadius: 100,
-    paddingVertical: 8,
+    backgroundColor: 'transparent',
+    marginBottom: 24,
   },
 
-  commentInput: {
+  avatarWrapper: { width: 28, height: 28, borderRadius: 14, marginRight: 16 },
+
+  userAvatar: { flex: 1, borderRadius: 14 },
+
+  bubble: {
     flex: 1,
-    fontFamily: 'Roboto-Medium',
-    fontSize: 16,
-    color: '#BDBDBD',
-    marginLeft: 16,
+    backgroundColor: 'rgba(0, 0, 0, 0.03)',
+    padding: 16,
+    borderRadius: 6,
+    borderTopLeftRadius: 0,
   },
 
-  addCommentButton: {
-    backgroundColor: '#FF6C00',
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 8,
+  comment: {
+    fontFamily: 'Roboto-Regular',
+    fontSize: 13,
+    color: '#212121',
+    marginBottom: 8,
+  },
+
+  date: {
+    fontFamily: 'Roboto-Regular',
+    fontSize: 10,
+    color: '#bdbdbd',
+    alignSelf: 'flex-end',
   },
 });

@@ -4,6 +4,7 @@ import { FontAwesome } from '@expo/vector-icons';
 import { SimpleLineIcons } from '@expo/vector-icons';
 
 export default function PostsItem({
+  postOwnerId,
   id,
   description,
   location,
@@ -12,7 +13,7 @@ export default function PostsItem({
   navigation,
 }) {
   const onGoToComments = () =>
-    navigation.navigate('Comments', { id: id, photo: photo });
+    navigation.navigate('Comments', { id, photo, postOwnerId });
   const onGoToMap = () => console.log('map');
 
   return (

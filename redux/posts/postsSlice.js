@@ -20,5 +20,9 @@ export default createSlice({
       postsData: payload,
     }),
     getPostsError: (state, { payload }) => ({ ...state, error: payload }),
+    addCommentSuccess: (state) => ({ ...state }),
+    addCommentError: (state, { payload }) => ({ ...state, error: payload }),
+    getCommentsSuccess: (state) => ({ ...state }),
+    getCommentsError: (state, { payload }) => ({ ...state, error: payload }),
   },
 });
