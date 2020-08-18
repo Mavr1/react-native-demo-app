@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   View,
+  Text,
   KeyboardAvoidingView,
   Image,
   TouchableWithoutFeedback,
@@ -14,6 +15,7 @@ import { useSelector } from 'react-redux';
 
 export default function CommentsScreen({ route: { params } }) {
   const { commentsData } = useSelector((state) => state.comments);
+  const comments = commentsData.filter((item) => item.postId === params.postId);
 
   return (
     <KeyboardAvoidingView
@@ -31,21 +33,23 @@ export default function CommentsScreen({ route: { params } }) {
             />
           </View>
           <View style={styles.commentsContainer}>
-            <FlatList
-              data={commentsData.filter(
-                (item) => item.postId === params.postId
-              )}
-              renderItem={({ item }) => (
-                <CommentItem
-                  id={item.id}
-                  text={item.comment}
-                  date={item.date}
-                  isIncoming={true}
-                  // avatar={item.photo}
-                />
-              )}
-              keyExtractor={(item) => item.id}
-            />
+            {comments.length > 0 ? (
+              <FlatList
+                data={comments}
+                renderItem={({ item }) => (
+                  <CommentItem
+                    id={item.id}
+                    text={item.comment}
+                    date={item.date}
+                    isIncoming={true}
+                    // avatar={item.photo}
+                  />
+                )}
+                keyExtractor={(item) => item.id}
+              />
+            ) : (
+              <Text style={styles.noComments}>No comments yet</Text>
+            )}
           </View>
           <CommentInput
             postId={params.paramsId}

@@ -24,5 +24,15 @@ export const styles = StyleSheet.create({
 
   photo: { flex: 1, borderRadius: 8 },
 
-  commentsContainer: { flex: 1 },
+  commentsContainer: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+
+  noComments: {
+    fontFamily: 'Roboto-Regular',
+    fontSize: 16,
+    color: '#BDBDBD',
+    textAlign: 'center',
+  },
 });
