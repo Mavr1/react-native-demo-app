@@ -19,16 +19,32 @@ export const addPost = (post) => async (dispatch) => {
 export const getPosts = (postOwnerId) => async (dispatch) => {
   dispatch(loaderSlice.actions.setLoadingTrue());
   try {
-    const snapshot = postOwnerId
+    postOwnerId
       ? await fb
           .firestore()
           .collection('posts')
           .where('uid', '==', postOwnerId)
-          .get()
-      : await fb.firestore().collection('posts').get();
-    let data = [];
-    snapshot.forEach((doc) => data.push({ ...doc.data(), id: doc.id }));
+          .onSnapshot((data) => getPostHelper(data, dispatch))
+      : await fb
+          .firestore()
+          .collection('posts')
+          .onSnapshot((data) => getPostHelper(data, dispatch));
     dispatch(postsSlice.actions.getPostsSuccess(data));
+  } catch (error) {
+    dispatch(postsSlice.actions.getPostsError(error.message));
+  }
+  dispatch(loaderSlice.actions.setLoadingFalse());
+};
+
+const getPostHelper = (data, dispatch) => {
+  dispatch(loaderSlice.actions.setLoadingTrue());
+  try {
+    const posts = data.docs.map((doc) => ({
+      ...doc.data(),
+      id: doc.id,
+    }));
+    dispatch(postsSlice.actions.getPostsSuccess(posts));
+    dispatch(postsSlice.actions.setErrorNull());
   } catch (error) {
     dispatch(postsSlice.actions.getPostsError(error.message));
   }
