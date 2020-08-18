@@ -5,7 +5,7 @@ import { SimpleLineIcons } from '@expo/vector-icons';
 
 export default function PostsItem({
   postOwnerId,
-  id,
+  postId,
   description,
   location,
   comments,
@@ -13,7 +13,7 @@ export default function PostsItem({
   navigation,
 }) {
   const onGoToComments = () =>
-    navigation.navigate('Comments', { id, photo, postOwnerId });
+    navigation.navigate('Comments', { postId, photo, postOwnerId });
   const onGoToMap = () => console.log('map');
 
   return (

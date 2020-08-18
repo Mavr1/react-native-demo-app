@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
   View,
   KeyboardAvoidingView,
@@ -10,17 +10,10 @@ import {
 import CommentInput from '../../components/commentInput/CommentInput';
 import CommentItem from '../../components/commentItem/CommentItem';
 import { styles } from './styles';
-import { getComments } from '../../redux/comments/commentsOperations';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 export default function CommentsScreen({ route: { params } }) {
   const { commentsData } = useSelector((state) => state.comments);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getComments(params.id));
-    return;
-  }, []);
 
   return (
     <KeyboardAvoidingView
@@ -39,7 +32,9 @@ export default function CommentsScreen({ route: { params } }) {
           </View>
           <View style={styles.commentsContainer}>
             <FlatList
-              data={commentsData}
+              data={commentsData.filter(
+                (item) => item.postId === params.postId
+              )}
               renderItem={({ item }) => (
                 <CommentItem
                   id={item.id}
@@ -52,7 +47,10 @@ export default function CommentsScreen({ route: { params } }) {
               keyExtractor={(item) => item.id}
             />
           </View>
-          <CommentInput postId={params.id} postOwnerId={params.postOwnerId} />
+          <CommentInput
+            postId={params.paramsId}
+            postOwnerId={params.postOwnerId}
+          />
         </View>
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>

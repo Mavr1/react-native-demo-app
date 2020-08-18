@@ -4,18 +4,24 @@ import { getPosts } from '../../redux/posts/postsOperations';
 import { useDispatch, useSelector } from 'react-redux';
 import PostsUserCard from '../../components/postsUserCard/PostsUserCard';
 import PostsItem from '../../components/postsItem/PostsItem';
+import { getComments } from '../../redux/comments/commentsOperations';
 
 export default function PostsScreen({ navigation }) {
   const name = useSelector((state) => state.auth.name);
   const email = useSelector((state) => state.auth.email);
   const posts = useSelector((state) => state.posts.postsData);
+  const comments = useSelector((state) => state.comments.commentsData);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getPosts());
+    dispatch(getComments());
     return;
   }, []);
+
+  const commentsNumber = (postId) =>
+    comments.filter((item) => item.postId === postId).length;
 
   return (
     <View style={styles.container}>
@@ -25,11 +31,11 @@ export default function PostsScreen({ navigation }) {
           data={posts}
           renderItem={({ item }) => (
             <PostsItem
-              id={item.id}
+              postId={item.id}
               postOwnerId={item.uid}
               description={item.postDescription}
               location={item.postLocation}
-              comments={0}
+              comments={commentsNumber(item.id)}
               photo={item.photo}
               navigation={navigation}
             />

@@ -2,45 +2,33 @@ import fb from '../../firebase/config';
 import commentsSlice from './commentsSlice';
 import loaderSlice from '../loader/loaderSlice';
 
-export const getComments = (postId) => async (dispatch) => {
-  dispatch(loaderSlice.actions.setLoadingTrue());
-  try {
-    const getCommentsResponse = await fb
-      .firestore()
-      .collection('posts')
-      .doc(postId)
-      .collection('comments')
-      .get();
-    // await fb
-    //   .firestore()
-    //   .collection('posts')
-    //   .doc(postId)
-    //   .collection('comments')
-    //   .onSnapshot((data) =>
-    //     console.log(
-    //       data.docs.map((doc) => ({ ...doc.data(), id: doc.id })).length
-    //     )
-    //   );
-
-    let data = [];
-    getCommentsResponse.forEach((doc) =>
-      data.push({ ...doc.data(), id: doc.id })
-    );
-    dispatch(commentsSlice.actions.getCommentsSuccess(data));
-    dispatch(commentsSlice.actions.setErrorNull());
-  } catch (error) {
-    dispatch(commentsSlice.actions.getCommentsError(error.message));
-  }
-  dispatch(loaderSlice.actions.setLoadingFalse());
+export const getComments = () => async (dispatch) => {
+  await fb
+    .firestore()
+    .collectionGroup('comments')
+    .onSnapshot((data) => {
+      dispatch(loaderSlice.actions.setLoadingTrue());
+      try {
+        const comments = data.docs.map((doc) => ({
+          ...doc.data(),
+          id: doc.id,
+        }));
+        dispatch(commentsSlice.actions.getCommentsSuccess(comments));
+        dispatch(commentsSlice.actions.setErrorNull());
+      } catch (error) {
+        dispatch(commentsSlice.actions.getCommentsError(error.message));
+      }
+      dispatch(loaderSlice.actions.setLoadingFalse());
+    });
 };
 
-export const addComment = (comment, postId) => async (dispatch) => {
+export const addComment = (comment) => async (dispatch) => {
   dispatch(loaderSlice.actions.setLoadingTrue());
   try {
     const addCommentResponse = await fb
       .firestore()
       .collection('posts')
-      .doc(postId)
+      .doc(comment.postId)
       .collection('comments')
       .add(comment);
     dispatch(

@@ -22,7 +22,7 @@ export default function CommentInput({ postId, postOwnerId }) {
       postId,
       postOwnerId,
     };
-    dispatch(addComment(data, postId));
+    dispatch(addComment(data));
   };
 
   return (
