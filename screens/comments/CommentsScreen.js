@@ -15,6 +15,7 @@ import { useSelector } from 'react-redux';
 
 export default function CommentsScreen({ route: { params } }) {
   const { commentsData } = useSelector((state) => state.comments);
+  const currentUserId = useSelector((state) => state.auth.uid);
   const comments = commentsData.filter((item) => item.postId === params.postId);
 
   return (
@@ -41,7 +42,7 @@ export default function CommentsScreen({ route: { params } }) {
                     id={item.id}
                     text={item.comment}
                     date={item.date}
-                    isIncoming={true}
+                    isOwn={item.authorId === currentUserId}
                     // avatar={item.photo}
                   />
                 )}
