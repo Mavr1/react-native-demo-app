@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   View,
   Text,
@@ -13,10 +13,22 @@ import CommentItem from '../../components/commentItem/CommentItem';
 import { styles } from './styles';
 import { useSelector } from 'react-redux';
 
-export default function CommentsScreen({ route: { params } }) {
+export default function CommentsScreen({
+  navigation,
+  route: { params },
+  setIsHeaderShown,
+}) {
   const { commentsData } = useSelector((state) => state.comments);
   const currentUserId = useSelector((state) => state.auth.uid);
   const comments = commentsData.filter((item) => item.postId === params.postId);
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      setIsHeaderShown(true);
+    });
+
+    return unsubscribe;
+  }, [navigation]);
 
   return (
     <KeyboardAvoidingView

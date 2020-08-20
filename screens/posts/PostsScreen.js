@@ -6,7 +6,11 @@ import PostsUserCard from '../../components/postsUserCard/PostsUserCard';
 import PostsItem from '../../components/postsItem/PostsItem';
 import { getComments } from '../../redux/comments/commentsOperations';
 
-export default function PostsScreen({ navigation }) {
+export default function PostsScreen({
+  navigation,
+  setIsHeaderShown,
+  setHeaderTitle,
+}) {
   const name = useSelector((state) => state.auth.name);
   const email = useSelector((state) => state.auth.email);
   const posts = useSelector((state) => state.posts.postsData);
@@ -19,6 +23,15 @@ export default function PostsScreen({ navigation }) {
     dispatch(getComments());
     return;
   }, []);
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      setIsHeaderShown(true);
+      setHeaderTitle('Публикации');
+    });
+
+    return unsubscribe;
+  }, [navigation]);
 
   const commentsNumber = (postId) =>
     comments.filter((item) => item.postId === postId).length;

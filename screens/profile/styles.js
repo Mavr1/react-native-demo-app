@@ -19,8 +19,7 @@ export const styles = StyleSheet.create({
     fontSize: 30,
     textAlign: 'center',
     color: '#212121',
-    marginTop: 92,
-    marginBottom: 32,
+    marginVertical: 32,
   },
 
   input: {

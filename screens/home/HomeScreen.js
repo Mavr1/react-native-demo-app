@@ -10,7 +10,7 @@ import ProfileScreen from '../profile/ProfileScreen';
 
 const Tabs = createBottomTabNavigator();
 
-export default function HomeScreen() {
+export default function HomeScreen({ setIsHeaderShown, setHeaderTitle }) {
   return (
     <Tabs.Navigator
       initialRouteName="Posts"
@@ -56,9 +56,33 @@ export default function HomeScreen() {
         inactiveTintColor: 'gray',
       }}
     >
-      <Tabs.Screen name="Posts" component={PostsScreen} />
-      <Tabs.Screen name="AddPost" component={CreatePostsScreen} />
-      <Tabs.Screen name="Profile" component={ProfileScreen} />
+      <Tabs.Screen name="Posts">
+        {(props) => (
+          <PostsScreen
+            {...props}
+            setIsHeaderShown={setIsHeaderShown}
+            setHeaderTitle={setHeaderTitle}
+          />
+        )}
+      </Tabs.Screen>
+      <Tabs.Screen name="AddPost">
+        {(props) => (
+          <CreatePostsScreen
+            {...props}
+            setIsHeaderShown={setIsHeaderShown}
+            setHeaderTitle={setHeaderTitle}
+          />
+        )}
+      </Tabs.Screen>
+      <Tabs.Screen name="Profile">
+        {(props) => (
+          <ProfileScreen
+            {...props}
+            setIsHeaderShown={setIsHeaderShown}
+            setHeaderTitle={setHeaderTitle}
+          />
+        )}
+      </Tabs.Screen>
     </Tabs.Navigator>
   );
 }

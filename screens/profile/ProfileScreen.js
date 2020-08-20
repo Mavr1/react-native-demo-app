@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   View,
   Text,
@@ -12,11 +12,19 @@ import AddUserAvatar from '../../components/addUserAvatar/AddUserAvatar';
 import PostsItem from '../../components/postsItem/PostsItem';
 import { styles } from '../profile/styles';
 
-export default function ProfileScreen({ navigation }) {
+export default function ProfileScreen({ navigation, setIsHeaderShown }) {
   const posts = useSelector((state) => state.posts.postsData);
   const name = useSelector((state) => state.auth.name);
   const uid = useSelector((state) => state.auth.uid);
   const comments = useSelector((state) => state.comments.commentsData);
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      setIsHeaderShown(false);
+    });
+
+    return unsubscribe;
+  }, [navigation]);
 
   const userPosts = posts.filter((item) => item.uid === uid);
 
@@ -32,7 +40,7 @@ export default function ProfileScreen({ navigation }) {
         <View style={styles.inner}>
           <TouchableOpacity
             style={styles.buttonBack}
-            onPress={() => navigation.goBack()}
+            onPress={() => console.log('log out')}
             activeOpacity={0.8}
           >
             <Feather name="log-out" size={24} color="#BDBDBD" />

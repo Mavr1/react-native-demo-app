@@ -20,7 +20,11 @@ import { addPost } from '../../redux/posts/postsOperations';
 import { styles } from './styles';
 import ButtonPublish from '../../components/buttonPublish/ButtonPublish';
 
-export default function CreatePostsScreen({ navigation }) {
+export default function CreatePostsScreen({
+  navigation,
+  setIsHeaderShown,
+  setHeaderTitle,
+}) {
   const [postDescription, setPostDescription] = useState('');
   const [postLocation, setPostLocation] = useState('');
   const [postGeoLocation, setPostGeoLocation] = useState('');
@@ -49,6 +53,15 @@ export default function CreatePostsScreen({ navigation }) {
       setPostGeoLocation(coords);
     })();
   }, []);
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      setIsHeaderShown(true);
+      setHeaderTitle('Создать публикацию');
+    });
+
+    return unsubscribe;
+  }, [navigation]);
 
   const onSnapshot = async (photoRef) => {
     setIsCameraOn(false);

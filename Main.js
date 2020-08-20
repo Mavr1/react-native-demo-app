@@ -26,6 +26,8 @@ const Stack = createStackNavigator();
 
 export default function Main() {
   const [isFontReady, setIsFontReady] = useState(false);
+  const [isHeaderShown, setIsHeaderShown] = useState(true);
+  const [headerTitle, setHeaderTitle] = useState('');
 
   const dispatch = useDispatch();
 
@@ -48,7 +50,10 @@ export default function Main() {
   }
 
   return (
-    <Stack.Navigator initialRouteName="Login">
+    <Stack.Navigator
+      initialRouteName="Login"
+      screenOptions={{ headerShown: isHeaderShown }}
+    >
       {!isAuth && (
         <>
           <Stack.Screen
@@ -67,9 +72,8 @@ export default function Main() {
         <>
           <Stack.Screen
             name="Home"
-            component={HomeScreen}
             options={{
-              title: 'Публикации',
+              title: headerTitle,
               headerTitleStyle: {
                 alignSelf: 'center',
                 transform: [{ translateX: 28 }],
@@ -84,10 +88,17 @@ export default function Main() {
                 </TouchableOpacity>
               ),
             }}
-          />
+          >
+            {(props) => (
+              <HomeScreen
+                {...props}
+                setIsHeaderShown={setIsHeaderShown}
+                setHeaderTitle={setHeaderTitle}
+              />
+            )}
+          </Stack.Screen>
           <Stack.Screen
             name="Comments"
-            component={CommentsScreen}
             options={({ navigation }) => ({
               title: 'Комментарии',
               headerTitleStyle: {
@@ -104,7 +115,11 @@ export default function Main() {
                 </TouchableOpacity>
               ),
             })}
-          />
+          >
+            {(props) => (
+              <CommentsScreen {...props} setIsHeaderShown={setIsHeaderShown} />
+            )}
+          </Stack.Screen>
         </>
       )}
     </Stack.Navigator>
