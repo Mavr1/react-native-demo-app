@@ -3,7 +3,6 @@ import {
   View,
   Text,
   TextInput,
-  Image,
   ImageBackground,
   TouchableOpacity,
   TouchableWithoutFeedback,
@@ -14,6 +13,7 @@ import {
 import { styles } from '../login/styles';
 import { register } from '../../redux/auth/authOperations';
 import { useDispatch } from 'react-redux';
+import AddUserAvatar from '../../components/addUserAvatar/AddUserAvatar';
 
 export default function RegistrationScreen({ navigation }) {
   const [login, setLogin] = useState({ value: '', isFocused: false });
@@ -45,15 +45,7 @@ export default function RegistrationScreen({ navigation }) {
             style={styles.signInContainer}
             behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
           >
-            <View style={styles.userAvatarContainer}>
-              <Image
-                source={{ uri: 'https://reactjs.org/logo-og.png' }}
-                style={styles.userAvatar}
-              />
-              <View style={styles.userAvatarAddButton}>
-                <Text style={styles.userAvatarAddButtonText}>+</Text>
-              </View>
-            </View>
+            <AddUserAvatar />
             <View style={styles.innerWrapper}>
               <Text style={styles.title}>Регистрация</Text>
               <TextInput

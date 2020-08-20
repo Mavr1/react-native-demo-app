@@ -6,19 +6,7 @@ import { AntDesign } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 import CreatePostsScreen from '../createPosts/CreatePostsScreen';
 import PostsScreen from '../posts/PostsScreen';
-
-function ProfileScreen() {
-  return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#fff',
-      }}
-    />
-  );
-}
+import ProfileScreen from '../profile/ProfileScreen';
 
 const Tabs = createBottomTabNavigator();
 

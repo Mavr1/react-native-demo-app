@@ -4,6 +4,7 @@ const initialState = {
   name: '',
   email: '',
   uid: '',
+  avatar: '',
   error: '',
 };
 
@@ -16,6 +17,7 @@ export default createSlice({
       name: payload.displayName,
       email: payload.email,
       uid: payload.uid,
+      avatar: payload.photoURL,
     }),
     registerError: (state, { payload }) => ({ ...state, error: payload }),
     setErrorNull: (state) => ({ ...state, error: '' }),
@@ -24,6 +26,7 @@ export default createSlice({
       name: payload.displayName,
       email: payload.email,
       uid: payload.uid,
+      avatar: payload.photoURL,
     }),
     loginError: (state, { payload }) => ({ ...state, error: payload }),
     logoutSuccess: () => initialState,
@@ -33,6 +36,7 @@ export default createSlice({
       name: payload.displayName,
       email: payload.email,
       uid: payload.uid,
+      avatar: payload.photoURL,
     }),
     getAuthStateError: (state, { payload }) => ({ ...state, error: payload }),
   },

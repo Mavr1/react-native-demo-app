@@ -42,15 +42,6 @@ export default function LoginScreen({ navigation }) {
             style={styles.signInContainer}
             behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
           >
-            <View style={styles.userAvatarContainer}>
-              <Image
-                source={{ uri: 'https://reactjs.org/logo-og.png' }}
-                style={styles.userAvatar}
-              />
-              <View style={styles.userAvatarAddButton}>
-                <Text style={styles.userAvatarAddButtonText}>+</Text>
-              </View>
-            </View>
             <View style={styles.innerWrapper}>
               <Text style={styles.title}>Войти</Text>
               <TextInput

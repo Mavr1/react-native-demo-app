@@ -1,30 +1,25 @@
 import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
+  background: { flex: 1, resizeMode: 'cover' },
+
   container: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     backgroundColor: '#fff',
+    marginTop: 150,
+    borderTopLeftRadius: 25,
+    borderTopRightRadius: 25,
   },
-  background: { flex: 1, resizeMode: 'cover', justifyContent: 'flex-end' },
 
-  // signInContainer: {
-  //   position: 'relative',
-  //   justifyContent: 'center',
-  //   backgroundColor: '#fff',
-  //   paddingTop: 92,
-  //   paddingBottom: 78,
-  //   borderTopLeftRadius: 25,
-  //   borderTopRightRadius: 25,
-  // },
-
-  innerWrapper: { marginHorizontal: 16 },
+  inner: { marginHorizontal: 16 },
 
   title: {
     fontFamily: 'Roboto-Medium',
     fontSize: 30,
     textAlign: 'center',
     color: '#212121',
+    marginTop: 92,
     marginBottom: 32,
   },
 
@@ -81,4 +76,6 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#1B4371',
   },
+
+  buttonBack: { alignSelf: 'flex-end', marginTop: 24 },
 });
