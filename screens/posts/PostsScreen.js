@@ -48,6 +48,7 @@ export default function PostsScreen({
               postOwnerId={item.uid}
               description={item.postDescription}
               location={item.postLocation}
+              geoLocation={item.postGeoLocation}
               comments={commentsNumber(item.id)}
               photo={item.photo}
               navigation={navigation}

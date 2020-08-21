@@ -6,10 +6,11 @@ import {
   TouchableOpacity,
   FlatList,
 } from 'react-native';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Feather } from '@expo/vector-icons';
 import AddUserAvatar from '../../components/addUserAvatar/AddUserAvatar';
 import PostsItem from '../../components/postsItem/PostsItem';
+import { logout } from '../../redux/auth/authOperations';
 import { styles } from '../profile/styles';
 
 export default function ProfileScreen({ navigation, setIsHeaderShown }) {
@@ -17,6 +18,8 @@ export default function ProfileScreen({ navigation, setIsHeaderShown }) {
   const name = useSelector((state) => state.auth.name);
   const uid = useSelector((state) => state.auth.uid);
   const comments = useSelector((state) => state.comments.commentsData);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
@@ -27,6 +30,8 @@ export default function ProfileScreen({ navigation, setIsHeaderShown }) {
   }, [navigation]);
 
   const userPosts = posts.filter((item) => item.uid === uid);
+
+  const onLogout = () => dispatch(logout());
 
   const commentsNumber = (postId) =>
     comments.filter((item) => item.postId === postId).length;
@@ -40,7 +45,7 @@ export default function ProfileScreen({ navigation, setIsHeaderShown }) {
         <View style={styles.inner}>
           <TouchableOpacity
             style={styles.buttonBack}
-            onPress={() => console.log('log out')}
+            onPress={onLogout}
             activeOpacity={0.8}
           >
             <Feather name="log-out" size={24} color="#BDBDBD" />
@@ -57,6 +62,7 @@ export default function ProfileScreen({ navigation, setIsHeaderShown }) {
                 postOwnerId={item.uid}
                 description={item.postDescription}
                 location={item.postLocation}
+                geoLocation={item.postGeoLocation}
                 comments={commentsNumber(item.id)}
                 photo={item.photo}
                 navigation={navigation}

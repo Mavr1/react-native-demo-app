@@ -8,13 +8,14 @@ export default function PostsItem({
   postId,
   description,
   location,
+  geoLocation,
   comments,
   photo,
   navigation,
 }) {
   const onGoToComments = () =>
     navigation.navigate('Comments', { postId, photo, postOwnerId });
-  const onGoToMap = () => console.log('map');
+  const onGoToMap = () => navigation.navigate('Map', { location, geoLocation });
 
   return (
     <View style={styles.container}>

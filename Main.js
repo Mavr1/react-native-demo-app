@@ -12,6 +12,7 @@ import LoginScreen from './screens/login/LoginScreen';
 import HomeScreen from './screens/home/HomeScreen';
 import CommentsScreen from './screens/comments/CommentsScreen';
 import { logout, getAuthState } from './redux/auth/authOperations';
+import MapScreen from './screens/map/MapScreen';
 
 const loadFonts = async () => {
   await Font.loadAsync({
@@ -118,6 +119,29 @@ export default function Main() {
           >
             {(props) => (
               <CommentsScreen {...props} setIsHeaderShown={setIsHeaderShown} />
+            )}
+          </Stack.Screen>
+          <Stack.Screen
+            name="Map"
+            options={({ navigation }) => ({
+              title: 'Локации',
+              headerTitleStyle: {
+                alignSelf: 'center',
+                transform: [{ translateX: -28 }],
+              },
+              headerLeft: () => (
+                <TouchableOpacity
+                  style={styles.buttonBack}
+                  onPress={() => navigation.goBack()}
+                  activeOpacity={0.8}
+                >
+                  <MaterialIcons name="arrow-back" size={24} color="#BDBDBD" />
+                </TouchableOpacity>
+              ),
+            })}
+          >
+            {(props) => (
+              <MapScreen {...props} setIsHeaderShown={setIsHeaderShown} />
             )}
           </Stack.Screen>
         </>

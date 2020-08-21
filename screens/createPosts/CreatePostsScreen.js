@@ -17,8 +17,8 @@ import { SimpleLineIcons } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
 import CameraView from '../../components/cameraView/CameraView';
 import { addPost } from '../../redux/posts/postsOperations';
-import { styles } from './styles';
 import ButtonPublish from '../../components/buttonPublish/ButtonPublish';
+import { styles } from './styles';
 
 export default function CreatePostsScreen({
   navigation,
