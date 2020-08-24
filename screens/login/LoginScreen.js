@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import {
   View,
   Text,
   TextInput,
-  Image,
   ImageBackground,
   TouchableOpacity,
   TouchableWithoutFeedback,
@@ -13,7 +13,6 @@ import {
 } from 'react-native';
 import { styles } from './styles';
 import { login } from '../../redux/auth/authOperations';
-import { useDispatch } from 'react-redux';
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState({ value: '', isFocused: false });
@@ -33,14 +32,22 @@ export default function LoginScreen({ navigation }) {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <View style={styles.container}>
-        <ImageBackground
-          style={styles.background}
-          source={require('../../assets/images/3060bf968d92368179ce26a756ce4271.jpg')}
+      <ImageBackground
+        style={styles.background}
+        source={require('../../assets/images/3060bf968d92368179ce26a756ce4271.jpg')}
+      >
+        <KeyboardAvoidingView
+          keyboardVerticalOffset={100}
+          style={{ flex: 1, justifyContent: 'flex-end' }}
+          behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
         >
-          <KeyboardAvoidingView
-            style={styles.signInContainer}
-            behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
+          <View
+            style={{
+              flex: 0.58,
+              backgroundColor: '#fff',
+              borderTopLeftRadius: 25,
+              borderTopRightRadius: 25,
+            }}
           >
             <View style={styles.innerWrapper}>
               <Text style={styles.title}>Войти</Text>
@@ -91,9 +98,9 @@ export default function LoginScreen({ navigation }) {
                 </Text>
               </TouchableOpacity>
             </View>
-          </KeyboardAvoidingView>
-        </ImageBackground>
-      </View>
+          </View>
+        </KeyboardAvoidingView>
+      </ImageBackground>
     </TouchableWithoutFeedback>
   );
 }

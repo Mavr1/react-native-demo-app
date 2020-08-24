@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import {
   View,
   Text,
@@ -10,15 +11,15 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
-import { styles } from '../login/styles';
+import { styles } from './styles';
 import { register } from '../../redux/auth/authOperations';
-import { useDispatch } from 'react-redux';
 import AddUserAvatar from '../../components/addUserAvatar/AddUserAvatar';
 
 export default function RegistrationScreen({ navigation }) {
   const [login, setLogin] = useState({ value: '', isFocused: false });
   const [email, setEmail] = useState({ value: '', isFocused: false });
   const [password, setPassword] = useState({ value: '', isFocused: false });
+  const [avatar, setAvatar] = useState('');
   const [isPassordShown, setIsPassordShown] = useState(false);
 
   const loginHandler = (text) => setLogin({ ...login, value: text });
@@ -28,25 +29,33 @@ export default function RegistrationScreen({ navigation }) {
   const dispatch = useDispatch();
 
   const onRegister = () => {
-    dispatch(register(login.value, email.value, password.value));
+    dispatch(register(login.value, email.value, password.value, avatar));
     loginHandler('');
     emailHandler('');
     passwordHandler('');
+    setAvatar('');
   };
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <View style={styles.container}>
-        <ImageBackground
-          style={styles.background}
-          source={require('../../assets/images/3060bf968d92368179ce26a756ce4271.jpg')}
+      <ImageBackground
+        style={styles.background}
+        source={require('../../assets/images/3060bf968d92368179ce26a756ce4271.jpg')}
+      >
+        <KeyboardAvoidingView
+          style={{ flex: 1, justifyContent: 'flex-end' }}
+          behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
         >
-          <KeyboardAvoidingView
-            style={styles.signInContainer}
-            behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
+          <View
+            style={{
+              flex: 0.76,
+              backgroundColor: '#fff',
+              borderTopLeftRadius: 25,
+              borderTopRightRadius: 25,
+            }}
           >
-            <AddUserAvatar />
             <View style={styles.innerWrapper}>
+              <AddUserAvatar avatar={avatar} setAvatar={setAvatar} />
               <Text style={styles.title}>Регистрация</Text>
               <TextInput
                 value={login.value}
@@ -105,9 +114,9 @@ export default function RegistrationScreen({ navigation }) {
                 </Text>
               </TouchableOpacity>
             </View>
-          </KeyboardAvoidingView>
-        </ImageBackground>
-      </View>
+          </View>
+        </KeyboardAvoidingView>
+      </ImageBackground>
     </TouchableWithoutFeedback>
   );
 }

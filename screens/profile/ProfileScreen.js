@@ -16,6 +16,7 @@ import { styles } from '../profile/styles';
 export default function ProfileScreen({ navigation, setIsHeaderShown }) {
   const posts = useSelector((state) => state.posts.postsData);
   const name = useSelector((state) => state.auth.name);
+  const avatar = useSelector((state) => state.auth.avatar);
   const uid = useSelector((state) => state.auth.uid);
   const comments = useSelector((state) => state.comments.commentsData);
 
@@ -50,7 +51,7 @@ export default function ProfileScreen({ navigation, setIsHeaderShown }) {
           >
             <Feather name="log-out" size={24} color="#BDBDBD" />
           </TouchableOpacity>
-          <AddUserAvatar />
+          <AddUserAvatar avatar={avatar} />
           <View style={styles.innerWrapper}>
             <Text style={styles.title}>{name}</Text>
           </View>

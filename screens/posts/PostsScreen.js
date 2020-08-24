@@ -13,6 +13,7 @@ export default function PostsScreen({
 }) {
   const name = useSelector((state) => state.auth.name);
   const email = useSelector((state) => state.auth.email);
+  const avatar = useSelector((state) => state.auth.avatar);
   const posts = useSelector((state) => state.posts.postsData);
   const comments = useSelector((state) => state.comments.commentsData);
 
@@ -39,7 +40,7 @@ export default function PostsScreen({
   return (
     <View style={styles.container}>
       <View style={styles.innerContainer}>
-        <PostsUserCard name={name} email={email} />
+        <PostsUserCard name={name} email={email} avatar={avatar} />
         <FlatList
           data={posts}
           renderItem={({ item }) => (

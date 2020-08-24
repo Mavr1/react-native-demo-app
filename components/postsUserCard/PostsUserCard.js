@@ -4,10 +4,13 @@ import { StyleSheet, View, Text, Image } from 'react-native';
 export default function PostsUserCard({ name, email, avatar }) {
   return (
     <View style={styles.userCard}>
-      <Image
-        source={{ uri: 'https://reactjs.org/logo-og.png' }}
-        style={styles.userAvatar}
-      />
+      <View style={styles.photoContainer}>
+        {!!avatar ? (
+          <Image source={{ uri: avatar }} style={styles.userAvatar} />
+        ) : (
+          <Text style={styles.noAvatar}>Нет фото</Text>
+        )}
+      </View>
       <View style={styles.userCardDescription}>
         <Text style={styles.userCardName}>{name}</Text>
         <Text style={styles.userCardEmail}>{email}</Text>
@@ -22,12 +25,15 @@ const styles = StyleSheet.create({
     marginVertical: 32,
   },
 
-  userAvatar: {
+  photoContainer: {
     width: 60,
     height: 60,
     borderRadius: 16,
     marginRight: 8,
+    justifyContent: 'center',
   },
+
+  userAvatar: { flex: 1, borderRadius: 16 },
 
   userCardDescription: { justifyContent: 'center' },
 
@@ -35,5 +41,12 @@ const styles = StyleSheet.create({
     fontFamily: 'Roboto-Bold',
     fontSize: 13,
     color: '#212121',
+  },
+
+  noAvatar: {
+    fontFamily: 'Roboto-Regular',
+    fontSize: 10,
+    color: '#bdbdbd',
+    textAlign: 'center',
   },
 });

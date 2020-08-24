@@ -7,9 +7,18 @@ export const register = (name, eMail, password, avatar) => async (dispatch) => {
   try {
     await fb.auth().createUserWithEmailAndPassword(eMail, password);
     const user = await fb.auth().currentUser;
+    const photoResponse = await fetch(avatar);
+    const photoBlob = await photoResponse.blob();
+    const uniqPhotoId = Date.now().toString();
+    await fb.storage().ref(`usersAvatars/${uniqPhotoId}`).put(photoBlob);
+    const photoRef = await fb
+      .storage()
+      .ref(`usersAvatars/${uniqPhotoId}`)
+      .getDownloadURL();
+
     await user.updateProfile({
       displayName: name,
-      photoURL: avatar,
+      photoURL: photoRef,
     });
     const { displayName, email, uid, photoURL } = await fb.auth().currentUser;
     dispatch(
@@ -70,4 +79,35 @@ export const getAuthState = () => async (dispatch) => {
     dispatch(authSlice.actions.getAuthStateError(error.message));
     dispatch(loaderSlice.actions.setLoadingFalse());
   }
+};
+
+export const updateProfile = (name, avatar) => async (dispatch) => {
+  dispatch(loaderSlice.actions.setLoadingTrue());
+  try {
+    const user = await fb.auth().currentUser;
+    const photoResponse = await fetch(avatar);
+    const photoBlob = await photoResponse.blob();
+    const uniqPhotoId = Date.now().toString();
+    await fb.storage().ref(`usersAvatars/${uniqPhotoId}`).put(photoBlob);
+    const photoRef = await fb
+      .storage()
+      .ref(`usersAvatars/${uniqPhotoId}`)
+      .getDownloadURL();
+
+    const getNewProfile = (name, avatar) => {
+      const newProfile = {};
+      !!name && (newProfile.displayName = name);
+      !!avatar && (newProfile.photoURL = avatar);
+      return newProfile;
+    };
+
+    await user.updateProfile(getNewProfile(name, avatar));
+
+    const { displayName, photoURL } = await fb.auth().currentUser;
+    dispatch(authSlice.actions.updateSuccess({ displayName, photoURL }));
+    dispatch(authSlice.actions.setErrorNull());
+  } catch (error) {
+    dispatch(authSlice.actions.updateError(error.message));
+  }
+  dispatch(loaderSlice.actions.setLoadingFalse());
 };

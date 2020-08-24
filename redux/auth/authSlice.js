@@ -39,5 +39,11 @@ export default createSlice({
       avatar: payload.photoURL,
     }),
     getAuthStateError: (state, { payload }) => ({ ...state, error: payload }),
+    updateSuccess: (state, { payload }) => ({
+      ...state,
+      name: payload.displayName,
+      avatar: payload.photoURL,
+    }),
+    updateError: (state, { payload }) => ({ ...state, error: payload }),
   },
 });

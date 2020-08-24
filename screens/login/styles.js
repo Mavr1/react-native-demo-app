@@ -1,24 +1,15 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 
 export const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    backgroundColor: '#fff',
-  },
-  background: { flex: 1, resizeMode: 'cover', justifyContent: 'flex-end' },
-
-  signInContainer: {
-    position: 'relative',
-    justifyContent: 'center',
-    backgroundColor: '#fff',
-    paddingTop: 32,
-    paddingBottom: 78,
-    borderTopLeftRadius: 25,
-    borderTopRightRadius: 25,
+  background: {
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height,
   },
 
-  innerWrapper: { marginHorizontal: 16 },
+  innerWrapper: { marginHorizontal: 16, flex: 1, paddingTop: 32 },
 
   title: {
     fontFamily: 'Roboto-Medium',
