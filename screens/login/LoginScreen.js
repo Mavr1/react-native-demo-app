@@ -12,7 +12,7 @@ import {
   Platform,
 } from 'react-native';
 import { styles } from './styles';
-import { login } from '../../redux/auth/authOperations';
+import { register } from '../../redux/auth/authOperations';
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState({ value: '', isFocused: false });
@@ -24,8 +24,8 @@ export default function LoginScreen({ navigation }) {
 
   const dispatch = useDispatch();
 
-  const onLogin = () => {
-    dispatch(login(email.value, password.value));
+  const onSubmit = () => {
+    dispatch(register(email.value, password.value));
     emailHandler('');
     passwordHandler('');
   };
@@ -37,7 +37,6 @@ export default function LoginScreen({ navigation }) {
         source={require('../../assets/images/3060bf968d92368179ce26a756ce4271.jpg')}
       >
         <KeyboardAvoidingView
-          keyboardVerticalOffset={100}
           style={{ flex: 1, justifyContent: 'flex-end' }}
           behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
         >
@@ -72,28 +71,28 @@ export default function LoginScreen({ navigation }) {
                   style={{ fontSize: 16, flex: 1 }}
                 />
                 <TouchableOpacity
-                  style={styles.buttonLogin}
+                  style={styles.buttonShowPassword}
                   onPress={() => setIsPassordShown(!isPassordShown)}
                   activeOpacity={0.6}
                 >
-                  <Text style={styles.buttonLoginText}>
+                  <Text style={styles.buttonShowPasswordTitle}>
                     {isPassordShown ? 'Скрыть' : 'Показать'}
                   </Text>
                 </TouchableOpacity>
               </View>
               <TouchableOpacity
-                style={styles.buttonRegister}
-                onPress={onLogin}
+                style={styles.buttonSubmit}
+                onPress={onSubmit}
                 activeOpacity={0.4}
               >
-                <Text style={styles.buttonRegisterTitle}>Войти</Text>
+                <Text style={styles.buttonSubmitTitle}>Войти</Text>
               </TouchableOpacity>
               <TouchableOpacity
-                style={styles.buttonLogin}
+                style={styles.buttonChangeAuthTitle}
                 onPress={() => navigation.navigate('Registration')}
                 activeOpacity={0.6}
               >
-                <Text style={styles.buttonLoginText}>
+                <Text style={styles.buttonShowPasswordTitle}>
                   Нет аккаунта? Зарегистрироваться
                 </Text>
               </TouchableOpacity>
@@ -104,3 +103,70 @@ export default function LoginScreen({ navigation }) {
     </TouchableWithoutFeedback>
   );
 }
+
+//         <KeyboardAvoidingView
+//
+//           style={{ flex: 1, justifyContent: 'flex-end' }}
+//           behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
+//         >
+//           <View
+//             style={{
+//               flex: 0.58,
+//               backgroundColor: '#fff',
+//               borderTopLeftRadius: 25,
+//               borderTopRightRadius: 25,
+//             }}
+//           >
+//             <View style={styles.innerWrapper}>
+//               <Text style={styles.title}>Войти</Text>
+//               <TextInput
+//                 value={email.value}
+//                 onFocus={() => setEmail({ ...email, isFocused: true })}
+//                 onBlur={() => setEmail({ ...email, isFocused: false })}
+//                 onChangeText={emailHandler}
+//                 placeholder="Адрес электронной почты"
+//                 style={email.isFocused ? styles.inputFocused : styles.input}
+//               />
+//               <View
+//                 style={password.isFocused ? styles.inputFocused : styles.input}
+//               >
+//                 <TextInput
+//                   value={password.value}
+//                   onFocus={() => setPassword({ ...password, isFocused: true })}
+//                   onBlur={() => setPassword({ ...password, isFocused: false })}
+//                   onChangeText={passwordHandler}
+//                   placeholder="Пароль"
+//                   secureTextEntry={isPassordShown ? false : true}
+//                   style={{ fontSize: 16, flex: 1 }}
+//                 />
+//                 <TouchableOpacity
+//                   style={styles.buttonLogin}
+//                   onPress={() => setIsPassordShown(!isPassordShown)}
+//                   activeOpacity={0.6}
+//                 >
+//                   <Text style={styles.buttonLoginText}>
+//                     {isPassordShown ? 'Скрыть' : 'Показать'}
+//                   </Text>
+//                 </TouchableOpacity>
+//               </View>
+//               <TouchableOpacity
+//                 style={styles.buttonRegister}
+//                 onPress={onLogin}
+//                 activeOpacity={0.4}
+//               >
+//                 <Text style={styles.buttonRegisterTitle}>Войти</Text>
+//               </TouchableOpacity>
+//               <TouchableOpacity
+//                 style={styles.buttonLogin}
+//                 onPress={() => navigation.navigate('Registration')}
+//                 activeOpacity={0.6}
+//               >
+//
+//               </TouchableOpacity>
+//             </View>
+//           </View>
+//         </KeyboardAvoidingView>
+//       </ImageBackground>
+//     </TouchableWithoutFeedback>
+//   );
+// }

@@ -47,7 +47,7 @@ export const styles = StyleSheet.create({
     color: '#000',
   },
 
-  buttonRegister: {
+  buttonSubmit: {
     flex: 0,
     justifyContent: 'center',
     alignItems: 'center',
@@ -60,13 +60,13 @@ export const styles = StyleSheet.create({
     marginBottom: 16,
   },
 
-  buttonRegisterTitle: {
+  buttonSubmitTitle: {
     fontSize: 16,
     color: '#fff',
     fontFamily: 'Roboto-Regular',
   },
 
-  buttonLoginText: {
+  buttonShowPasswordTitle: {
     fontFamily: 'Roboto-Regular',
     fontSize: 16,
     textAlign: 'center',

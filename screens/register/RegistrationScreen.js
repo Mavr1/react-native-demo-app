@@ -28,7 +28,7 @@ export default function RegistrationScreen({ navigation }) {
 
   const dispatch = useDispatch();
 
-  const onRegister = () => {
+  const onSubmit = () => {
     dispatch(register(login.value, email.value, password.value, avatar));
     loginHandler('');
     emailHandler('');
@@ -86,30 +86,28 @@ export default function RegistrationScreen({ navigation }) {
                   style={{ fontSize: 16, flex: 1 }}
                 />
                 <TouchableOpacity
-                  style={styles.buttonLogin}
+                  style={styles.buttonShowPassword}
                   onPress={() => setIsPassordShown(!isPassordShown)}
                   activeOpacity={0.6}
                 >
-                  <Text style={styles.buttonLoginText}>
+                  <Text style={styles.buttonShowPasswordTitle}>
                     {isPassordShown ? 'Скрыть' : 'Показать'}
                   </Text>
                 </TouchableOpacity>
               </View>
               <TouchableOpacity
-                style={styles.buttonRegister}
-                onPress={onRegister}
+                style={styles.buttonSubmit}
+                onPress={onSubmit}
                 activeOpacity={0.4}
               >
-                <Text style={styles.buttonRegisterTitle}>
-                  Зарегистрироваться
-                </Text>
+                <Text style={styles.buttonSubmitTitle}>Зарегистрироваться</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.buttonLogin}
                 onPress={() => navigation.navigate('Login')}
                 activeOpacity={0.6}
               >
-                <Text style={styles.buttonLoginText}>
+                <Text style={styles.buttonShowPasswordTitle}>
                   Уже есть аккаунт? Войти
                 </Text>
               </TouchableOpacity>
