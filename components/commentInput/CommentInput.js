@@ -23,6 +23,7 @@ export default function CommentInput({ postId, postOwnerId }) {
       postOwnerId,
     };
     dispatch(addComment(data));
+    setComment('');
   };
 
   return (

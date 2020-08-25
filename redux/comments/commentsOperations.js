@@ -31,6 +31,7 @@ export const addComment = (comment) => async (dispatch) => {
       .doc(comment.postId)
       .collection('comments')
       .add(comment);
+    console.log('addCommentResponse :>> ', addCommentResponse);
     dispatch(
       commentsSlice.actions.addCommentSuccess({
         ...comment,

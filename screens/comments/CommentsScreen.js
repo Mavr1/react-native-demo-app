@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import fb from '../../firebase/config';
 import {
   View,
   Text,
@@ -30,6 +31,20 @@ export default function CommentsScreen({
     return unsubscribe;
   }, [navigation]);
 
+  // useEffect(() => {
+  //   comments.map((item) => {
+  //     console.log(111);
+  //     (async () => {
+  //       const photoRef = await fb
+  //         .storage()
+  //         .ref(`usersAvatars/${item.authorId}`)
+  //         .listAll();
+  //       console.log('photoRef :>> ', photoRef);
+  //     })();
+  //     return { ...item };
+  //   });
+  // }, []);
+
   return (
     <KeyboardAvoidingView
       style={styles.container}
@@ -51,7 +66,6 @@ export default function CommentsScreen({
                 data={comments}
                 renderItem={({ item }) => (
                   <CommentItem
-                    id={item.id}
                     text={item.comment}
                     date={item.date}
                     isOwn={item.authorId === currentUserId}
@@ -65,7 +79,7 @@ export default function CommentsScreen({
             )}
           </View>
           <CommentInput
-            postId={params.paramsId}
+            postId={params.postId}
             postOwnerId={params.postOwnerId}
           />
         </View>
