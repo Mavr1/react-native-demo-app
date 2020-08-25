@@ -57,8 +57,8 @@ export default function PostsItem({
               color="#BDBDBD"
               style={styles.locationIcon}
             />
+            <Text style={styles.locationDescription}>{location}</Text>
           </TouchableOpacity>
-          <Text style={styles.locationDescription}>{location}</Text>
         </View>
       </View>
     </View>
@@ -98,8 +98,6 @@ const styles = StyleSheet.create({
 
   commentContainer: { flexDirection: 'row' },
 
-  locationContainer: { flexDirection: 'row' },
-
   commentsIcon: { marginRight: 8 },
 
   commentsNumber: {
@@ -107,6 +105,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#BDBDBD',
   },
+
+  locationButton: { flexDirection: 'row' },
 
   locationIcon: { marginRight: 8 },
 

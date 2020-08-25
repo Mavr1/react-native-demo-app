@@ -7,20 +7,26 @@ export const register = (name, eMail, password, avatar) => async (dispatch) => {
   try {
     await fb.auth().createUserWithEmailAndPassword(eMail, password);
     const user = await fb.auth().currentUser;
+
     const photoResponse = await fetch(avatar);
     const photoBlob = await photoResponse.blob();
     const uniqPhotoId = Date.now().toString();
-    await fb.storage().ref(`usersAvatars/${uniqPhotoId}`).put(photoBlob);
+    await fb
+      .storage()
+      .ref(`usersAvatars/${user.uid}/${uniqPhotoId}`)
+      .put(photoBlob);
     const photoRef = await fb
       .storage()
-      .ref(`usersAvatars/${uniqPhotoId}`)
+      .ref(`usersAvatars/${user.uid}/${uniqPhotoId}`)
       .getDownloadURL();
 
     await user.updateProfile({
       displayName: name,
       photoURL: photoRef,
     });
+
     const { displayName, email, uid, photoURL } = await fb.auth().currentUser;
+
     dispatch(
       authSlice.actions.registerSuccess({ displayName, email, uid, photoURL })
     );
@@ -88,10 +94,13 @@ export const updateProfile = (name, avatar) => async (dispatch) => {
     const photoResponse = await fetch(avatar);
     const photoBlob = await photoResponse.blob();
     const uniqPhotoId = Date.now().toString();
-    await fb.storage().ref(`usersAvatars/${uniqPhotoId}`).put(photoBlob);
+    await fb
+      .storage()
+      .ref(`usersAvatars/${user.uid}/${uniqPhotoId}`)
+      .put(photoBlob);
     const photoRef = await fb
       .storage()
-      .ref(`usersAvatars/${uniqPhotoId}`)
+      .ref(`usersAvatars/${user.uid}/${uniqPhotoId}`)
       .getDownloadURL();
 
     const getNewProfile = (name, avatar) => {
@@ -101,7 +110,7 @@ export const updateProfile = (name, avatar) => async (dispatch) => {
       return newProfile;
     };
 
-    await user.updateProfile(getNewProfile(name, avatar));
+    await user.updateProfile(getNewProfile(name, photoRef));
 
     const { displayName, photoURL } = await fb.auth().currentUser;
     dispatch(authSlice.actions.updateSuccess({ displayName, photoURL }));
