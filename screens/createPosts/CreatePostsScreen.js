@@ -72,7 +72,12 @@ export default function CreatePostsScreen({
     setPostPhoto('');
   };
 
-  const onDeletePost = () => console.log('Delete Post');
+  const onDeletePost = () => {
+    setPostDescription('');
+    setPostLocation('');
+    setPostPhoto('');
+    setIsCameraOn(false);
+  };
 
   const onPublish = async () => {
     if (!postPhoto || !postDescription) {

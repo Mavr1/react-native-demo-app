@@ -52,25 +52,25 @@ export default function ProfileScreen({ navigation, setIsHeaderShown }) {
             <Feather name="log-out" size={24} color="#BDBDBD" />
           </TouchableOpacity>
           <AddUserAvatar avatar={avatar} />
-          <View style={styles.innerWrapper}>
-            <Text style={styles.title}>{name}</Text>
+          <Text style={styles.title}>{name}</Text>
+          <View style={styles.list}>
+            <FlatList
+              data={userPosts}
+              renderItem={({ item }) => (
+                <PostsItem
+                  postId={item.id}
+                  postOwnerId={item.uid}
+                  description={item.postDescription}
+                  location={item.postLocation}
+                  geoLocation={item.postGeoLocation}
+                  comments={commentsNumber(item.id)}
+                  photo={item.photo}
+                  navigation={navigation}
+                />
+              )}
+              keyExtractor={(item) => item.id}
+            />
           </View>
-          <FlatList
-            data={userPosts}
-            renderItem={({ item }) => (
-              <PostsItem
-                postId={item.id}
-                postOwnerId={item.uid}
-                description={item.postDescription}
-                location={item.postLocation}
-                geoLocation={item.postGeoLocation}
-                comments={commentsNumber(item.id)}
-                photo={item.photo}
-                navigation={navigation}
-              />
-            )}
-            keyExtractor={(item) => item.id}
-          />
         </View>
       </View>
     </ImageBackground>

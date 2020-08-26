@@ -1,7 +1,9 @@
 import React from 'react';
-import { View, Image, TouchableOpacity, StyleSheet, Text } from 'react-native';
+import { View, Image, StyleSheet, Text } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import * as ImagePicker from 'expo-image-picker';
 import { useDispatch } from 'react-redux';
+import { AntDesign } from '@expo/vector-icons';
 import { updateProfile } from '../../redux/auth/authOperations';
 
 export default function AddUserAvatar({ avatar, setAvatar }) {
@@ -29,17 +31,19 @@ export default function AddUserAvatar({ avatar, setAvatar }) {
       ) : (
         <Text style={styles.noAvatar}>Добавить фото</Text>
       )}
-      <TouchableOpacity
-        style={styles.addButton}
-        onPress={addAvatar}
-        activeOpacity={1}
-      >
-        {!avatar ? (
-          <View style={styles.addIcon} />
-        ) : (
-          <View style={styles.removeIcon} />
-        )}
-      </TouchableOpacity>
+      <View style={styles.addButton}>
+        <TouchableOpacity onPress={addAvatar} activeOpacity={1}>
+          {!avatar ? (
+            <View style={styles.addIcon}>
+              <AntDesign name="plus" size={20} color="#FF6C00" />
+            </View>
+          ) : (
+            <View style={styles.removeIcon}>
+              <AntDesign name="close" size={20} color="#BDBDBD" />
+            </View>
+          )}
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
@@ -55,8 +59,6 @@ const styles = StyleSheet.create({
     height: 120,
     backgroundColor: '#f6f6f6',
     borderRadius: 16,
-    // borderWidth: 1,
-    // borderColor: '#BDBDBD',
   },
 
   avatar: {
@@ -67,6 +69,8 @@ const styles = StyleSheet.create({
   addButton: { position: 'absolute', bottom: 20, right: -13 },
 
   addIcon: {
+    justifyContent: 'center',
+    alignItems: 'center',
     backgroundColor: '#fff',
     width: 26,
     height: 26,
@@ -76,6 +80,8 @@ const styles = StyleSheet.create({
   },
 
   removeIcon: {
+    justifyContent: 'center',
+    alignItems: 'center',
     backgroundColor: '#fff',
     width: 26,
     height: 26,

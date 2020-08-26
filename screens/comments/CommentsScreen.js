@@ -52,6 +52,18 @@ export default function CommentsScreen({
     })();
   }, [commentsData]);
 
+  const options = {
+    // era: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    // weekday: 'long',
+    timezone: 'UTC',
+    hour: 'numeric',
+    minute: 'numeric',
+    // second: 'numeric',
+  };
+
   return (
     <KeyboardAvoidingView
       keyboardVerticalOffset={90}
@@ -84,7 +96,7 @@ export default function CommentsScreen({
               renderItem={({ item }) => (
                 <CommentItem
                   text={item.comment}
-                  date={item.date}
+                  date={new Date(item.date).toLocaleString('ru', options)}
                   isOwn={item.authorId === currentUserId}
                   avatar={item.avatar}
                 />
