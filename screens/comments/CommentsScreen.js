@@ -54,10 +54,17 @@ export default function CommentsScreen({
 
   return (
     <KeyboardAvoidingView
-      style={styles.container}
+      keyboardVerticalOffset={90}
+      style={{ flex: 1, backgroundColor: '#fff' }}
       behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
     >
-      <View style={styles.inner}>
+      <View
+        style={{
+          flex: 1,
+          justifyContent: 'flex-end',
+          marginHorizontal: 16,
+        }}
+      >
         <View style={styles.photoContainer}>
           <Image
             source={{
@@ -69,7 +76,11 @@ export default function CommentsScreen({
         <View style={styles.commentsContainer}>
           {comments.length > 0 ? (
             <FlatList
-              data={comments}
+              data={comments.sort((a, b) => {
+                return new Date(a.date).getTime() > new Date(b.date).getTime()
+                  ? 1
+                  : -1;
+              })}
               renderItem={({ item }) => (
                 <CommentItem
                   text={item.comment}

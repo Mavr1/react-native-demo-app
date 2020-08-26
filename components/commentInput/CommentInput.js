@@ -14,9 +14,11 @@ export default function CommentInput({ postId, postOwnerId }) {
   const commentInputHandler = (text) => setComment(text);
 
   const onAddComment = () => {
+    if (!comment) return;
+
     const date = new Date();
     const data = {
-      date: date.toLocaleString('ru'),
+      date: date.toISOString(),
       comment,
       authorId: uid,
       postId,
