@@ -22,6 +22,21 @@ export const getComments = () => async (dispatch) => {
     });
 };
 
+export const getCommentsOne = () => async (dispatch) => {
+  dispatch(loaderSlice.actions.setLoadingTrue());
+  try {
+    const data = await fb.firestore().collectionGroup('comments').get();
+    const comments = data.docs.map((doc) => ({
+      ...doc.data(),
+      id: doc.id,
+    }));
+    dispatch(commentsSlice.actions.getCommentsSuccess(comments));
+  } catch (error) {
+    dispatch(commentsSlice.actions.getCommentsError(error.message));
+  }
+  dispatch(loaderSlice.actions.setLoadingFalse());
+};
+
 export const addComment = (comment) => async (dispatch) => {
   dispatch(loaderSlice.actions.setLoadingTrue());
   try {

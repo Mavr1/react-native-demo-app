@@ -5,10 +5,7 @@ export default function CommentItem({ avatar, text, date, isOwn }) {
   return (
     <View style={isOwn ? styles.containerOwn : styles.container}>
       <View style={isOwn ? styles.avatarWrapperOwn : styles.avatarWrapper}>
-        <Image
-          source={{ uri: 'https://reactjs.org/logo-og.png' }}
-          style={styles.userAvatar}
-        />
+        <Image source={{ uri: avatar }} style={styles.userAvatar} />
       </View>
       <View style={isOwn ? styles.bubbleOwn : styles.bubble}>
         <Text style={styles.comment}>{text}</Text>

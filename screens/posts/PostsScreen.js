@@ -4,7 +4,7 @@ import { getPosts } from '../../redux/posts/postsOperations';
 import { useDispatch, useSelector } from 'react-redux';
 import PostsUserCard from '../../components/postsUserCard/PostsUserCard';
 import PostsItem from '../../components/postsItem/PostsItem';
-import { getComments } from '../../redux/comments/commentsOperations';
+import { getCommentsOne } from '../../redux/comments/commentsOperations';
 
 export default function PostsScreen({
   navigation,
@@ -21,7 +21,7 @@ export default function PostsScreen({
 
   useEffect(() => {
     dispatch(getPosts());
-    dispatch(getComments());
+    dispatch(getCommentsOne());
     return;
   }, []);
 

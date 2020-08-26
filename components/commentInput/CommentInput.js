@@ -29,7 +29,7 @@ export default function CommentInput({ postId, postOwnerId }) {
   return (
     <View style={styles.container}>
       <TextInput
-        style={styles.input}
+        style={!!comment ? styles.inputActive : styles.input}
         value={comment}
         onChangeText={commentInputHandler}
         placeholder="Комментировать..."
@@ -62,6 +62,14 @@ export const styles = StyleSheet.create({
     fontFamily: 'Roboto-Medium',
     fontSize: 16,
     color: '#BDBDBD',
+    marginLeft: 16,
+  },
+
+  inputActive: {
+    flex: 1,
+    fontFamily: 'Roboto-Medium',
+    fontSize: 16,
+    color: '#212121',
     marginLeft: 16,
   },
 

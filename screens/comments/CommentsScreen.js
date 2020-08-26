@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import fb from '../../firebase/config';
 import {
   View,
@@ -19,9 +19,13 @@ export default function CommentsScreen({
   route: { params },
   setIsHeaderShown,
 }) {
-  const { commentsData } = useSelector((state) => state.comments);
   const currentUserId = useSelector((state) => state.auth.uid);
-  const comments = commentsData.filter((item) => item.postId === params.postId);
+  const { commentsData } = useSelector((state) => state.comments);
+  const commentsFiltered = commentsData.filter(
+    (item) => item.postId === params.postId
+  );
+
+  const [comments, setComments] = useState([]);
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
@@ -31,59 +35,57 @@ export default function CommentsScreen({
     return unsubscribe;
   }, [navigation]);
 
-  // useEffect(() => {
-  //   comments.map((item) => {
-  //     console.log(111);
-  //     (async () => {
-  //       const photoRef = await fb
-  //         .storage()
-  //         .ref(`usersAvatars/${item.authorId}`)
-  //         .listAll();
-  //       console.log('photoRef :>> ', photoRef);
-  //     })();
-  //     return { ...item };
-  //   });
-  // }, []);
+  useEffect(() => {
+    (async () => {
+      const res = await commentsFiltered.map(async (item) => {
+        const data = await fb
+          .storage()
+          .ref(`usersAvatars/${item.authorId}`)
+          .listAll();
+        const avatarRef = await data.items.pop().getDownloadURL();
+        return { ...item, avatar: avatarRef };
+      });
+
+      Promise.all(res)
+        .then((data) => setComments(data))
+        .catch((err) => console.log('err :>> ', err));
+    })();
+  }, []);
 
   return (
     <KeyboardAvoidingView
       style={styles.container}
       behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
     >
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={styles.inner}>
-          <View style={styles.photoContainer}>
-            <Image
-              source={{
-                uri: params.photo,
-              }}
-              style={styles.photo}
-            />
-          </View>
-          <View style={styles.commentsContainer}>
-            {comments.length > 0 ? (
-              <FlatList
-                data={comments}
-                renderItem={({ item }) => (
-                  <CommentItem
-                    text={item.comment}
-                    date={item.date}
-                    isOwn={item.authorId === currentUserId}
-                    // avatar={item.photo}
-                  />
-                )}
-                keyExtractor={(item) => item.id}
-              />
-            ) : (
-              <Text style={styles.noComments}>No comments yet</Text>
-            )}
-          </View>
-          <CommentInput
-            postId={params.postId}
-            postOwnerId={params.postOwnerId}
+      <View style={styles.inner}>
+        <View style={styles.photoContainer}>
+          <Image
+            source={{
+              uri: params.photo,
+            }}
+            style={styles.photo}
           />
         </View>
-      </TouchableWithoutFeedback>
+        <View style={styles.commentsContainer}>
+          {comments.length > 0 ? (
+            <FlatList
+              data={comments}
+              renderItem={({ item }) => (
+                <CommentItem
+                  text={item.comment}
+                  date={item.date}
+                  isOwn={item.authorId === currentUserId}
+                  avatar={item.avatar}
+                />
+              )}
+              keyExtractor={(item) => item.id}
+            />
+          ) : (
+            <Text style={styles.noComments}>No comments yet</Text>
+          )}
+        </View>
+        <CommentInput postId={params.postId} postOwnerId={params.postOwnerId} />
+      </View>
     </KeyboardAvoidingView>
   );
 }
