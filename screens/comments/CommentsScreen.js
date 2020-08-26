@@ -50,7 +50,7 @@ export default function CommentsScreen({
         .then((data) => setComments(data))
         .catch((err) => console.log('err :>> ', err));
     })();
-  }, []);
+  }, [commentsData]);
 
   return (
     <KeyboardAvoidingView
