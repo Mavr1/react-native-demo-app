@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import fb from '../../firebase/config';
 import {
   View,
   Text,
   KeyboardAvoidingView,
   Image,
-  TouchableWithoutFeedback,
-  Keyboard,
+  ActivityIndicator,
   FlatList,
 } from 'react-native';
+import { useSelector, useDispatch } from 'react-redux';
+import fb from '../../firebase/config';
 import CommentInput from '../../components/commentInput/CommentInput';
 import CommentItem from '../../components/commentItem/CommentItem';
+import loaderSlice from '../../redux/loader/loaderSlice';
 import { styles } from './styles';
-import { useSelector } from 'react-redux';
 
 export default function CommentsScreen({
   navigation,
@@ -21,11 +21,11 @@ export default function CommentsScreen({
 }) {
   const currentUserId = useSelector((state) => state.auth.uid);
   const { commentsData } = useSelector((state) => state.comments);
-  const commentsFiltered = commentsData.filter(
-    (item) => item.postId === params.postId
-  );
+  const isLoading = useSelector((state) => state.loader.isLoading);
 
   const [comments, setComments] = useState([]);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
@@ -35,8 +35,13 @@ export default function CommentsScreen({
     return unsubscribe;
   }, [navigation]);
 
+  const commentsFiltered = commentsData.filter(
+    (item) => item.postId === params.postId
+  );
+
   useEffect(() => {
     (async () => {
+      dispatch(loaderSlice.actions.setLoadingTrue());
       const res = await commentsFiltered.map(async (item) => {
         const data = await fb
           .storage()
@@ -46,9 +51,11 @@ export default function CommentsScreen({
         return { ...item, avatar: avatarRef };
       });
 
-      Promise.all(res)
+      await Promise.all(res)
         .then((data) => setComments(data))
         .catch((err) => console.log('err :>> ', err));
+
+      dispatch(loaderSlice.actions.setLoadingFalse());
     })();
   }, [commentsData]);
 
@@ -86,7 +93,12 @@ export default function CommentsScreen({
           />
         </View>
         <View style={styles.commentsContainer}>
-          {comments.length > 0 ? (
+          <ActivityIndicator
+            animating={isLoading}
+            size="large"
+            color="#FF6C00"
+          />
+          {!isLoading && comments.length > 0 ? (
             <FlatList
               data={comments.sort((a, b) => {
                 return new Date(a.date).getTime() > new Date(b.date).getTime()
@@ -104,7 +116,7 @@ export default function CommentsScreen({
               keyExtractor={(item) => item.id}
             />
           ) : (
-            <Text style={styles.noComments}>No comments yet</Text>
+            !isLoading && <Text style={styles.noComments}>No comments yet</Text>
           )}
         </View>
         <CommentInput postId={params.postId} postOwnerId={params.postOwnerId} />
