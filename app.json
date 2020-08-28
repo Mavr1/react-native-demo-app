@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "myNewProject",
-    "slug": "myNewProject",
+    "name": "react-native-demo-project",
+    "slug": "react-native-demo-project",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -21,6 +21,8 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "description": "Not optimized for iPhone",
+    "githubUrl": "https://github.com/Mavr1/react-native-first-app"
   }
 }
