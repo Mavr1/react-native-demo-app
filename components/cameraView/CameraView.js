@@ -66,8 +66,10 @@ export default function CameraView({ onSnapshot }) {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1 },
-  camera: { flex: 1 },
+  container: { flex: 1, alignItems: 'center' },
+
+  camera: { height: 240, width: (240 * 3) / 4 },
+
   photoView: {
     flex: 1,
     backgroundColor: 'transparent',
