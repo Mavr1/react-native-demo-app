@@ -51,6 +51,7 @@ export default function LoginScreen({ navigation }) {
             <View style={styles.innerWrapper}>
               <Text style={styles.title}>Войти</Text>
               <TextInput
+                keyboardType="email-address"
                 value={email.value}
                 onFocus={() => setEmail({ ...email, isFocused: true })}
                 onBlur={() => setEmail({ ...email, isFocused: false })}
@@ -62,6 +63,7 @@ export default function LoginScreen({ navigation }) {
                 style={password.isFocused ? styles.inputFocused : styles.input}
               >
                 <TextInput
+                  keyboardType="default"
                   value={password.value}
                   onFocus={() => setPassword({ ...password, isFocused: true })}
                   onBlur={() => setPassword({ ...password, isFocused: false })}
