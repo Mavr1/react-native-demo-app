@@ -13,9 +13,7 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },
@@ -23,6 +21,6 @@
       "favicon": "./assets/favicon.png"
     },
     "description": "Not optimized for iPhone",
-    "githubUrl": "https://github.com/Mavr1/react-native-first-app"
+    "githubUrl": "https://github.com/Mavr1/react-native-demo-app"
   }
 }
